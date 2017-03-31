@@ -204,5 +204,24 @@ function xmldb_vpl_upgrade($oldversion = 0) {
         // VPL savepoint reached.
         upgrade_mod_savepoint( true, 2013111512, 'vpl' );
     }
+    if ($oldversion < 2017021600) {
+        // Define table vpl  to be created.
+        $table = new xmldb_table( 'vpl' );
+        
+        // Adding fields to table vpl.
+        $field = new xmldb_field( 'usableasbase', XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED, null, null, '0', 'variationtitle' );
+        
+        // Conditionally launch add field worktype.
+        if (! $dbman->field_exists( $table, $field )) {
+            $dbman->add_field( $table, $field );
+        }
+        $rs = $DB->get_recordset_select('vpl','basedon > 0',null,null,'basedon');
+        foreach ($rs as $record ){
+            $DB->update_record('vpl', array('id'=>$record->basedon,'usableasbase'=>1), $bulk=false);
+        }
+        $rs->close();
+        // VPL savepoint reached.
+        upgrade_mod_savepoint( true, 2017021600, 'vpl' );
+    }
     return true;
 }

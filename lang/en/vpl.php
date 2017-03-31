@@ -241,6 +241,7 @@ $string ['undo'] = 'Undo';
 $string ['unexpected_file_name'] = "Incorrect file name: expected '{\$a->expected}' and found '{\$a->found}'";
 $string ['unzipping'] = 'Unzipping ...';
 $string ['uploadfile'] = 'Upload file';
+$string ['usableasbase'] = 'Usable as base';
 $string ['usevariations'] = 'Use variations';
 $string ['usewatermarks'] = 'Use watermarks';
 $string ['usewatermarks_description'] = 'Adds watermarks to student\'s files (only to supported languages)';

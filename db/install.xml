@@ -22,6 +22,7 @@
         <FIELD NAME="visiblegrade" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="0 visible grade no, 1 yes" PREVIOUS="grade" NEXT="usevariations"/>
         <FIELD NAME="usevariations" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Boolean to set if use variations or not in this vpl" PREVIOUS="visiblegrade" NEXT="variationtitle"/>
         <FIELD NAME="variationtitle" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Variation tittle, is show with the variation description" PREVIOUS="usevariations" NEXT="basedon"/>
+        <FIELD NAME="usableasbase" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="variationtitle" NEXT="basedon"/>
         <FIELD NAME="basedon" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Optionally, set the VPL id from this will be based on" PREVIOUS="variationtitle" NEXT="run"/>
         <FIELD NAME="run" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Let the student Run the program intertive (0=no, 1=yes)" PREVIOUS="basedon" NEXT="debug"/>
         <FIELD NAME="debug" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Let to the student debug the program" PREVIOUS="run" NEXT="evaluate"/>

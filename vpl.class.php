@@ -492,7 +492,14 @@ class mod_vpl {
     public function get_password_md5() {
         return md5( $this->instance->id . (sesskey()) );
     }
-
+    /**
+     * Get is use as base
+     **/
+    function is_use_as_base(){
+        return ($this->instance->usableasbase?true:false);
+    }
+ 
+ 
     /**
      * Check if pass password restriction
      */
