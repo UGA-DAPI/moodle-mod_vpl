@@ -37,20 +37,27 @@ class mod_vpl_executionoptions_form extends moodleform {
     protected function definition() {
         $mform = & $this->_form;
         $id = $this->vpl->get_course_module()->id;
+        $instance = $this->vpl->get_instance();
+        $vplid = $instance->id;
         $mform->addElement( 'hidden', 'id', $id );
         $mform->setType( 'id', PARAM_INT );
         $mform->addElement( 'header', 'header_execution_options', get_string( 'executionoptions', VPL ) );
+        $mform->addElement('advcheckbox', 'usableasbase', get_string('usableasbase', VPL));
+        $mform->setType('usableasbase', PARAM_BOOL);
+        $mform->setDefault('usableasbase', $instance->usableasbase);
         $strbasedon = get_string( 'basedon', VPL );
         $basedonlist = array ();
         $basedonlist [0] = '';
-        $courseid = $this->vpl->get_course()->id;
-        $listcm = get_coursemodules_in_course( VPL, $courseid );
-        $instance = $this->vpl->get_instance();
-        $vplid = $instance->id;
-        foreach ($listcm as $aux) {
-            if ($aux->instance != $vplid) {
-                $vpl = new mod_vpl( $aux->id );
-                $basedonlist [$aux->instance] = $vpl->get_printable_name();
+        $courseslist = array_keys(enrol_get_my_courses());
+        foreach ($courseslist as $courseid){
+            $listcm = get_coursemodules_in_course( VPL, $courseid );
+            foreach ($listcm as $aux) {
+                if ($aux->instance != $vplid) {
+                    $vpl = new mod_vpl( $aux->id );
+                    if ($vpl->is_use_as_base()){
+                        $basedonlist[$aux->instance] = $vpl->get_printable_name();
+                    }
+                }
             }
         }
         asort( $basedonlist );
@@ -92,6 +99,7 @@ if ($fromform = $mform->get_data()) {
     if (isset( $fromform->saveoptions )) {
         $instance = $vpl->get_instance();
         \mod_vpl\event\vpl_execution_options_updated::log( $vpl );
+        $instance->usableasbase = $fromform->usableasbase;
         $instance->basedon = $fromform->basedon;
         $instance->run = $fromform->run;
         $instance->debug = $fromform->debug;
