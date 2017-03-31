@@ -69,6 +69,8 @@ class vpl_sh_factory {
                 return self::get_object( 'prolog' );
             case 'm' :
                 return self::get_object( 'matlab' );
+            case 'mod' :
+                return self::get_object( 'opl' );
             case 'py' :
                 return self::get_object( 'python' );
             case 'scala' :
