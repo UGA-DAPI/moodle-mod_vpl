@@ -18,17 +18,17 @@
 require_once dirname(__FILE__).'/sh_c.class.php';
 
 class vpl_sh_opl extends vpl_sh_c{
-	function __construct(){
+	public function __construct(){
 		parent::__construct();
 		$added = array( 'all'=>true, 'and'=>true, 'assert'=>true, 'boolean'=>true, 'constraint'=>true, 'constraints'=>true, 'CP'=>true, 'CPLEX'=>true, 'cumulFunction'=>true, 'DBConnection'=>true, 'DBconnection'=>true, 'DBExecute'=>true, 'DBexecute'=>true, 'DBRead'=>true, 'DBread'=>true, 'DBUpdate'=>true, 'DBupdate'=>true, 'dexpr'=>true, 'diff'=>true, 'div'=>true, 'dvar'=>true, 'else'=>true, 'execute'=>true, 'false'=>true, 'float'=>true, 'float+'=>true, 'forall'=>true, 'from'=>true, 'if'=>true, 'in'=>true, 'include'=>true, 'infinity'=>true, 'int'=>true, 'int+'=>true, 'intensity'=>true, 'inter'=>true, 'interval'=>true, 'invoke'=>true, 'key'=>true, 'main'=>true, 'max'=>true, 'maximize'=>true, 'maxint'=>true, 'min'=>true, 'minimize'=>true, 'mod'=>true, 'notin'=>true, 'optional'=>true, 'or'=>true, 'ordered'=>true, 'piecewise'=>true, 'prepare'=>true, 'prod'=>true, 'pwlFunction'=>true, 'range'=>true, 'reversed'=>true, 'sequence'=>true, 'setof'=>true, 'SheetConnection'=>true, 'SheetRead'=>true, 'SheetWrite'=>true, 'size'=>true, 'sorted'=>true, 'stateFunction'=>true, 'stepFunction'=>true, 'stepwise'=>true, 'string'=>true, 'subjectto'=>true, 'sum'=>true, 'symdiff'=>true, 'to'=>true, 'true'=>true, 'tuple'=>true, 'types'=>true, 'union'=>true, 'using'=>true, 'with'=>true);
 		$this->reserved= array_merge($this->reserved, $added);
 	}
-	function print_file($filename, $filedata, $showln=true){
+	public function print_file($filename, $filedata, $showln=true){
 		$this->begin($filename,$showln);
-		$state = self::regular;
+        $state = self::REGULAR;
 		$pending='';
-		$first_no_space = '';
-		$last_no_space = '';
+        $firstnospace = '';
+        $lastnospace = '';
 		$l = strlen($filedata);
 		if($l){
 			$this->show_line_number();
@@ -44,8 +44,8 @@ class vpl_sh_opl extends vpl_sh_c{
 				$next ='';
 			}
 			if($previous == self::LF){
-				$last_no_space='';
-				$first_no_space = '';
+                $lastnospace = '';
+                $firstnospace = '';
 			}
 			if($current == self::CR){
 				if($next == self::LF) {
@@ -54,20 +54,20 @@ class vpl_sh_opl extends vpl_sh_c{
 					$current = self::LF;
 				}
 			}
-			if($current != ' ' && $current != "\t") {//Keep first and last char
+            if ($current != ' ' && $current != "\t") { // Keep first and last char.
 				if($current != self::LF){
-					$last_no_space=$current;
+                    $lastnospace = $current;
 				}
-				if($first_no_space == ''){
-					$first_no_space = $current;
+                if ($firstnospace == '') {
+                    $firstnospace = $current;
 				}
 			}
 			switch($state){
-				case self::in_comment:
-					// Check end of block comment
+                case self::IN_COMMENT :
+                    // Check end of block comment.
 					if($current=='*') {
 						if($next=='/') {
-							$state = self::regular;
+                            $state = self::REGULAR;
 							$pending .= '*/';
 							$this->show_text($pending);
 							$pending='';
@@ -79,30 +79,30 @@ class vpl_sh_opl extends vpl_sh_c{
 					if($current == self::LF){
 						$this->show_text($pending);
 						$pending='';
-						if($this->showln) { //Check to send endtag
+                        if ($this->showln) { // Check to send endtag.
 							$this->endTag();
 						}
 						$this->show_line_number();
-						if($this->showln) { //Check to send initTagtag
-							$this->initTag(self::c_comment);
+                        if ($this->showln) { // Check to send initTagtag.
+                            $this->initTag( self::C_COMMENT );
 						}
 					}else{
 						$pending .= $current;
 					}
 					break;
-				case self::in_linecomment:
-					// Check end of comment
+                case self::IN_LINECOMMENT :
+                    // Check end of comment.
 					if($current==self::LF){
 						$this->show_text($pending);
 						$pending='';
 						$this->endTag();
 						$this->show_line_number();
-						$state=self::regular;
+                        $state = self::REGULAR;
 					}else{
 						$pending .= $current;
 					}
 					break;
-				case self::in_macro:
+				case self::IN_MACRO :
 					// Check end of macro
 					if(!(($current >= 'a' && $current <= 'z') ||
 					($current >= 'A' && $current <= 'Z') ||
@@ -116,19 +116,19 @@ class vpl_sh_opl extends vpl_sh_c{
 						}else{
 							$this->show_text($current);
 						}
-						$state = self::regular;
+						$state = self::REGULAR;
 					}else{
 						$pending .= $current;
 					}
 					break;
-				case self::in_string:
-					// Check end of string
+                case self::IN_STRING :
+                    // Check end of string.
 					if($current=='"' && $previous!='\\') {
 						$pending .= '"';
 						$this->show_text($pending);
 						$pending='';
 						$this->endTag();
-						$state = self::regular;
+                        $state = self::REGULAR;
 						break;
 					}
 					if($current==self::LF){
@@ -136,23 +136,23 @@ class vpl_sh_opl extends vpl_sh_c{
 						$pending='';
 						$this->endTag();
 						$this->show_line_number();
-						$this->initTag(self::c_string);
+                        $this->initTag( self::C_STRING );
 					}else{
 						$pending .= $current;
 					}
-					//discard two backslash
+                    // Discard two backslash.
 					if($current=='\\' && $previous=='\\'){
 						$current=' ';
 					}
 					break;
-				case self::in_char:
-					// Check end of char
+                case self::IN_CHAR :
+                    // Check end of char.
 					if($current=='\'' && $previous!='\\') {
 						$pending .= '\'';
 						$this->show_text($pending);
 						$pending='';
 						$this->endTag();
-						$state = self::regular;
+                        $state = self::REGULAR;
 						break;
 					}
 					if($current==self::LF){
@@ -160,21 +160,21 @@ class vpl_sh_opl extends vpl_sh_c{
 						$pending='';
 						$this->endTag();
 						$this->show_line_number();
-						$this->initTag(self::c_string);
+                        $this->initTag( self::C_STRING );
 					}else{
 						$pending .= $current;
 					}
-					//discard two backslash
+                    // Discard two backslash.
 					if($current=='\\' && $previous=='\\'){
 						$current=' ';
 					}
 					break;
-				case self::regular:
+                case self::REGULAR :
 					if($current == '/') {
-						if($next == '*') { // Begin block comments
-							$state = self::in_comment;
+                        if ($next == '*') { // Begin block comments.
+                            $state = self::IN_COMMENT;
 							$this->show_pending($pending);
-							$this->initTag(self::c_comment);
+                            $this->initTag( self::C_COMMENT );
 							$this->show_text('/*');
 							$i++;
 							continue 2;
@@ -183,44 +183,42 @@ class vpl_sh_opl extends vpl_sh_c{
 							if($i < ($l-2)) {
 								$nextnext = $filedata[$i+2];
 								if ($nextnext == '/') {
-									$state = self::in_linecomment;
+									$state = self::IN_LINECOMMENT;
 									$this->show_pending($pending);
-									$this->initTag(self::c_commentTeacher);
+									$this->initTag(self::C_COMMENTTEACHER);
 									$this->show_text('//');
 									$i++;
 									continue 2;
 								}	
 							}
-							$state = self::in_linecomment;
+							$state = self::IN_LINECOMMENT;
 							$this->show_pending($pending);
-							$this->initTag(self::c_comment);
+							$this->initTag(self::C_COMMENT);
 							$this->show_text('//');
 							$i++;
 							continue 2;
 						}
 					}elseif($current == '"')	{
-						$state = self::in_string;
+                        $state = self::IN_STRING;
 						$this->show_pending($pending);
-						$this->initTag(self::c_string);
+                        $this->initTag( self::C_STRING );
 						$this->show_text('"');
 						break;
 					}elseif($current == "'"){
-						$state = self::in_char;
+                        $state = self::IN_CHAR;
 						$this->show_pending($pending);
-						$this->initTag(self::c_string);
+                        $this->initTag( self::C_STRING );
 						$this->show_text('\'');
 						break;
-					} elseif($current == '@' && $first_no_space==$current){
-						$state = self::in_macro;
+                    } else if ($current == '#' && $firstnospace == $current) {
+                        $state = self::IN_MACRO;
 						$this->show_pending($pending);
-						$this->initTag(self::c_macro);
-						$this->show_text('@');
+                        $this->initTag( self::C_MACRO );
+                        $this->show_text( '#' );
 						break;
 					}
-					if(($current >= 'a' && $current <= 'z') ||
-					($current >= 'A' && $current <= 'Z') ||
-					($current >= '0' && $current <= '9') ||
-					$current=='_' || ord($current) > 127){
+                    if (($current >= 'a' && $current <= 'z') || ($current >= 'A' && $current <= 'Z')
+                        || ($current >= '0' && $current <= '9') || $current == '_' || ord( $current ) > 127) {
 						$pending .= $current;
 					} else {
 						$this->show_pending($pending);
@@ -241,7 +239,7 @@ class vpl_sh_opl extends vpl_sh_c{
 		}
 
 		$this->show_pending($pending);
-		if($state != self::regular){
+        if ($state != self::REGULAR) {
 			$this->endTag();
 		}
 		$this->end();
