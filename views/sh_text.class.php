@@ -39,6 +39,7 @@ class vpl_sh_text extends vpl_sh_base {
     const C_VARIABLE = 'vpl_v';
     const C_STRING = 'vpl_s';
     const C_COMMENT = 'vpl_c';
+    const C_COMMENTTEACHER = 'vpl_ct';
     const C_MACRO = 'vpl_m';
     const C_RESERVED = 'vpl_r';
     const C_GENERAL = 'vpl_g';
