@@ -18,6 +18,7 @@ font-family:'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', mon
     white-space: pre
  }
 .vpl_ln{background-color:#FFFFFF;color:gray;}
+.vpl_ct{background-color:red;color:white;}
 
 .vpl_h0:HOVER {background-color:#D6F5D6;}
 .vpl_h1:HOVER {background-color:#ADEBAD;}
