@@ -304,7 +304,7 @@ function xmldb_vpl_upgrade($oldversion = 0) {
         // Vpl savepoint reached.
         upgrade_mod_savepoint(true, $vpl331, 'vpl');
     }
-    if ($oldversion < 2017121313) {
+    if ($oldversion < 2018011314) {
         // Define table vpl  to be created.
         $table = new xmldb_table( 'vpl' );
 
