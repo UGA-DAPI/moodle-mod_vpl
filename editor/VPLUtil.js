@@ -350,6 +350,7 @@
             'lisp' : 'lisp',
             'lsp' : 'lisp',
             'lua' : 'lua',
+            'mod' : 'opl',
             'pas' : 'pascal',
             'p' : 'pascal',
             'perl' : 'perl',
