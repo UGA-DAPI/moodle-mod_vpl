@@ -83,7 +83,12 @@ foreach ($submissionslist as $submission) {
     } else {
         $link = vpl_mod_href( 'forms/submissionview.php', 'id', $id, 'userid', $userid, 'submissionid', $submission->id );
     }
+    if($submission->grader != 0) {
+        $date = '<a href="'.$link.'" style="color: rgb(255,0,0)">'.userdate($submission->datesubmitted).': Evaluated</a>';
+    }
+    else {
     $date = '<a href="' . $link . '">' . userdate( $submission->datesubmitted ) . '</a>';
+    }
     $sub = new mod_vpl_submission( $vpl, $submission );
     $submissions [] = $sub;
     $table->data [] = array (
