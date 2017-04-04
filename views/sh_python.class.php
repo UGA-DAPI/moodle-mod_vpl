@@ -133,6 +133,14 @@ class vpl_sh_python extends vpl_sh_text {
                 case self::IN_REGULAR :
                 case self::IN_IDENTIFIER :
                     if ($current == '#') {
+                        if ($next == '#' && $filedata[i+2] == '#') {
+                            $state = self::IN_LINECOMMENT;
+                            $this->show_pending($pending);
+                            $this->initTag(self::C_COMMENTTEACHER);
+                            $this->show_text('##');
+                            $i++;
+                            continue 2;
+                        }
                         $this->show_pending( $pending );
                         $state = self::IN_LINECOMMENT;
                         $pending = $current;

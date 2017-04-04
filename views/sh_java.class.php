@@ -215,6 +215,17 @@ class vpl_sh_java extends vpl_sh_c {
                             continue 2;
                         }
                         if ($next == '/') { // Begin line comment.
+                            if($i < ($l-2)) {
+                                $nextnext = $filedata[$i+2];
+                                if ($nextnext == '/') {
+                                    $state = self::IN_LINECOMMENT;
+                                    $this->show_pending($pending);
+                                    $this->initTag(self::C_COMMENTTEACHER);
+                                    $this->show_text('//');
+                                    $i++;
+                                    continue 2;
+                                }   
+                            }
                             $state = self::IN_LINECOMMENT;
                             $this->show_pending( $pending );
                             $this->initTag( self::C_COMMENT );
