@@ -45,6 +45,7 @@ class vpl_sh_python extends vpl_sh_text {
     const IN_DECORATOR = 3;
     const IN_COMMENT = 4;
     const IN_LINECOMMENT = 5;
+    const IN_COMMENTTEACHER = 6;
     public function __construct() {
         $this->reserved = array (
                 "False" => true,
@@ -132,18 +133,15 @@ class vpl_sh_python extends vpl_sh_text {
             switch ($state) {
                 case self::IN_REGULAR :
                 case self::IN_IDENTIFIER :
-                    if ($current == '#') {
-                        if ($next == '#' && $filedata[i+2] == '#') {
-                            $state = self::IN_LINECOMMENT;
-                            $this->show_pending($pending);
-                            $this->initTag(self::C_COMMENTTEACHER);
-                            $this->show_text('##');
-                            $i++;
-                            continue 2;
-                        }
-                        $this->show_pending( $pending );
+			if ($current == '#'){ 
+				$this->show_pending( $pending );
+				if (substr( $filedata, $i, 3 ) == '###') {
+					$state = self::IN_COMMENTTEACHER;
+					$pending = $current;
+					continue 2;
+				}   
                         $state = self::IN_LINECOMMENT;
-                        $pending = $current;
+			$pending = $current;
                         continue 2;
                     } else if ($current == '"') {
                         $this->show_pending( $pending );
@@ -210,6 +208,17 @@ class vpl_sh_python extends vpl_sh_text {
                 case self::IN_LINECOMMENT :
                     if ($current == self::LF) {
                         $this->initTag( self::C_COMMENT );
+                        $this->show_text( $pending );
+                        $pending = '';
+                        $this->endTag();
+                        $this->show_line_number();
+                        $state = self::IN_REGULAR;
+                        continue 2;
+                    }
+                    break;
+                case self::IN_COMMENTTEACHER :
+                    if ($current == self::LF) {
+                        $this->initTag( self::C_COMMENTTEACHER );
                         $this->show_text( $pending );
                         $pending = '';
                         $this->endTag();

@@ -26,7 +26,6 @@
 require_once dirname(__FILE__).'/sh_text.class.php';
 
 class vpl_sh_cases extends vpl_sh_text{
-    protected $predefined_vars;
     protected function is_identifier_char($c){
         return ($c >= 'a' && $c <= 'z') || ($c >= 'A' && $c <= 'Z')
         || ($c >= '0' && $c <= '9') || ($c == '$') || ($c == '_');
@@ -36,26 +35,18 @@ class vpl_sh_cases extends vpl_sh_text{
             $this->initTag(self::C_RESERVED);
             parent::show_pending($rest);
             echo self::ENDTAG;
-        }else if(array_key_exists($rest  , $this->predefined_vars)){
-            $this->initTag(self::C_VARIABLE);
-            parent::show_pending($rest);
-            echo self::ENDTAG;
         }else{
             parent::show_pending($rest);
         }
         $rest ='';
     }
-    function __construct(){
+    public function __construct(){
         $list =array('Classe', 'Class', 'ValsInCons',
                     'Method', 'ValsIn', 'ValsOut',
 		    'Grade', 'JunitFiles', 'ShowInput', 'MessageErr', 'ExceptionOut',
 	    	    'MethodGet', 'TimeLimitInSec');
         foreach ($list as $word) {
             $this->reserved[$word]=1;
-        }
-        $list=array();
-        foreach ($list as $word) {
-            $this->predefined_vars[$word]=1;
         }
         parent::__construct();
     }
@@ -64,7 +55,7 @@ class vpl_sh_cases extends vpl_sh_text{
     const IN_DSTRING=2;
     const IN_CSTRING=3;
     const IN_COMMENT=4;
-    function print_file($filename, $filedata, $showln=true){
+    public function print_file($filename, $filedata, $showln=true){
         $this->begin($filename,$showln);
         $state=self::NORMAL;
         $pending='';
