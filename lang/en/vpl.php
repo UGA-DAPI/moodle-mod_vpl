@@ -149,6 +149,7 @@ $string ['menuexecutionoptions'] = 'Options';
 $string ['menukeepfiles'] = 'Files to keep';
 $string ['menulocal_jail_servers'] = 'Local execution servers';
 $string ['menuresourcelimits'] = 'Resources limits';
+$string ['merge'] = 'Merge grade';
 $string ['minsimlevel'] = 'Minimum similarity level to show';
 $string ['moduleconfigtitle'] = 'VPL Module Config';
 $string ['modulename'] = 'Virtual programming lab';
