@@ -103,13 +103,9 @@ class mod_vpl_grade_form extends moodleform {
             if ($grade > 0) {
                 // Link to recalculate numeric grade from comments.
                 $jscript = 'VPL.mergeGrade(' . $grade . ','.$graderaw.','.$gridscore.')';
-                //~ $html = ' <a class="btn btn-default" href="javascript:void(0);" onclick="' . $jscript . '">' . s( get_string( 'merge', VPL ) ) . '</a>';
-                //~ $mform->addElement('html', $html );
                 $mform->addElement('button','btnmerge', get_string( 'merge', VPL ),'onclick="' . $jscript . '"' );
-                //$mform->registerNoSubmitButton('btnmerge');
             }
         $mform->addElement('header','hGrade', get_string( 'grade') );
-        //$mform->addElement('html','<div id="vpl_grade_form">');
             
         $buttonarray=array();
         if ($grade != 0) {
@@ -126,7 +122,7 @@ class mod_vpl_grade_form extends moodleform {
         }
         $buttonarray[] =& $mform->createElement('submit', 'removegrade', get_string( 'removegrade', VPL ) );
         // Tranfer files to teacher's work area.
-        $url = vpl_mod_href( 'forms/edit.php', 'id', $id, 'userid', $userid, 'privatecopy', 1 );
+        $url = new moodle_url( '/mod/vpl/forms/edit.php',array( 'id'=> $id, 'userid'=> $userid, 'privatecopy'=> 1 ));
         $options = array (
                 'height' => 550,
                 'width' => 780,
@@ -137,46 +133,37 @@ class mod_vpl_grade_form extends moodleform {
                 'status' => 0,
                 'toolbar' => 0
         );
-        $action = new popup_action( 'click', $url, 'privatecopy' . ($vplinstance->id), $options );
-        //~ $mform->addElement('html', $OUTPUT->action_link( $url, get_string( 'copy', VPL ), $action,array('class' =>'btn btn-primary') ) );
-        //~ $buttonarray[] =& $mform->createElement('html', $OUTPUT->action_link( $url, get_string( 'copy', VPL ), $action,array('class' =>'btn btn-primary') ) );
-        $buttonarray[] =& $mform->createElement('button', 'copy',get_string( 'copy', VPL ),'onclick="windows.open(' .  $url. ');"' );
+        $buttonarray[] =& $mform->createElement('button', 'copy',get_string( 'copy', VPL ),array("onclick"=>"window.open('" .  $url->out(false)." ');") );
 
         if ($vplinstance->evaluate) {
             // Link to recalculate numeric grade from comments.
-            $url = vpl_mod_href( 'forms/evaluation.php', 'id', $id, 'userid', $userid, 'grading', 1, 'inpopup', $inpopup );
+            $url = new moodle_url( '/mod/vpl/forms/evaluation.php', array('id'=> $id, 'userid'=> $userid, 'grading'=> 1, 'inpopup'=> $inpopup ));
             $html = ' <a class="btn btn-primary" href="' . $url . '">' . s( get_string( 'evaluate', VPL ) ) . '</a>';
-            //~ $mform->addElement('html', $html );
-            $buttonarray[] =& $mform->createElement('button', 'evaluate',get_string( 'evaluate', VPL ),'onclick="windows.open(' . $url . ');"');
+            $buttonarray[] =& $mform->createElement('button', 'evaluate',get_string( 'evaluate', VPL ),array('onclick'=>"window.open('" . $url->out(false) ."');"));
         }
         // Numeric grade.
         if ($grade > 0) {
             // Link to recalculate numeric grade from comments.
             $jscript = 'VPL.calculateGrade(' . $grade . ')';
             $html = ' <a class="btn btn-primary" href="javascript:void(0);" onclick="' . $jscript . '">' . s( get_string( 'calculate', VPL ) ) . '</a>';
-            //~ $mform->addElement('html', $html );
             $buttonarray[] =& $mform->createElement('button', 'calculate',get_string( 'calculate', VPL ),'onclick="' . $jscript . '"' );
         }
         $mform->addGroup($buttonarray, 'buttonar', get_string('grades'), array(' '), false);
-        //$mform->addElement('html', '</div>' );
         $textarray=array();
         if ($grade != 0) {
-            //$mform->addElement('html','</br><b>'.s( get_string( 'comments', VPL )).'</b></br>' );
-            $textarray[] =& $mform->createElement('textarea', 'comments', get_string( 'comments', VPL ), 'rows="18" cols="70"' );
+            $textarray[] =& $mform->createElement('textarea', 'comments', get_string( 'comments', VPL ), 'rows="10" cols="70" class="form-group fitem"' );
         }
 
 
-        //$output = '<div id="vpl_grade_comments">';
+        $output = '<div id="vpl_grade_comments" class="form-group fitem">';
         $comments = $this->vpl->get_grading_help();
         if ($comments > '') {
-            $output .= $OUTPUT->box_start();
-            $output .= '<b>' . s(get_string( 'listofcomments', VPL )) . '</b><hr />';
-            $output .= $comments;
-            $output .= $OUTPUT->box_end();
+		$output .= '<b>' . s(get_string( 'listofcomments', VPL )) . '</b><hr />';
+                $output .= $comments;
         }
-        //$output .= '</div>';
+        $output .= '</div>';
         
-        $textarray[] =& $mform->createElement('static', $comments);
+        $textarray[] =& $mform->createElement('static','listcomments','', $output);
         $mform->addGroup($textarray, 'textar', get_string( 'comments', VPL ), array(' '), false);
        
         

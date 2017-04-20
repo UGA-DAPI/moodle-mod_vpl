@@ -39,22 +39,22 @@
      */
 
     VPL.resizeSView = function() {
-        var grade_view = window.document.getElementById('vpl_grade_view');
+        //var grade_view = window.document.getElementById('vpl_grade_view');
         var comments_view = window.document.getElementById('vpl_grade_comments');
-        var textarea = window.document.getElementsByTagName('textarea')[0];
-        var form_view = window.document.getElementById('vpl_grade_form');
+        var textarea = window.document.getElementById('id_comments');
+        var form_view = window.document.getElementById('mform1');
         var submission_view = window.document.getElementById('vpl_submission_view');
-        if (grade_view && comments_view && form_view && submission_view && textarea) {
-            textarea.style.resize="both";
-            form_view.style.width = (textarea.offsetWidth+8)+ 'px';
-            grade_view.style.height = form_view.scrollHeight + 'px';
-            comments_view.style.height = form_view.scrollHeight + 'px';
-            comments_view.style.width = (grade_view.scrollWidth - form_view.scrollWidth - 8) + 'px';
+        if ( comments_view  && submission_view && textarea) {
+            //textarea.style.resize="both";
+            //form_view.style.width = (textarea.offsetWidth+8)+ 'px';
+            //grade_view.style.height = form_view.scrollHeight + 'px';
+            comments_view.style.height = textarea.clientHeight + 'px';
+            //comments_view.style.width = (grade_view.scrollWidth - form_view.scrollWidth - 8) + 'px';
             var newHeight;
             if (window.innerHeight) {
-                newHeight = window.innerHeight - VPL.getOffsetY(submission_view) - 35;
+                newHeight = window.innerHeight - form_view.clientHeight + form_view.clientTop;
             } else {
-                newHeight = document.documentElement.clientHeight - VPL.getOffsetY(submission_view) - 35;
+                newHeight = document.documentElement.clientHeight - form_view.clientHeight + form_view.clientTop;
             }
             if(newHeight < 300) {
                 newHeight = 300;
@@ -63,17 +63,6 @@
         }
     };
 
-    /* Set the resize controler */
-    window.addEventListener('load', 
-        function() { 
-                window.document.getElementById("form1").addEventListener('submit', function(e){
-                                    e.preventDefault();
-                                    window.document.getElementById('mform1').submit();
-                                    this.submit();
-                                });
-                
-          }
-        );
     VPL.resizeSView();
     setInterval(VPL.resizeSView, 1000);
     /**
@@ -151,9 +140,9 @@
         rubricvalues.forEach(function(item){
             grade += new Number(item.textContent);
         });
-        grade = vplgrade - ((vplgrade*gridscore/maxgrade)- grade)
         var proposedcomment = '#Proposed grade : ' +vplgrade;
         var gridcomment = '#Grid grade : ' +grade;
+        grade = vplgrade - ((vplgrade*gridscore/maxgrade)- grade)
         if (text.search('#Proposed grade')<0 ) {
             text += proposedcomment+"\n";
         }else{

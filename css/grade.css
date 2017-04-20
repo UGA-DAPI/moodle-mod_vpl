@@ -5,9 +5,13 @@
     float:left;
 }
 #vpl_grade_comments {
-    float:left;
-    width:40%;
+    /*float:right;*/
+    width:49%;
     overflow:auto;
+    border: 1px solid lightgray;
+}
+textarea#id_comments{
+    width:50%;
 }
 #vpl_submission_view {
     clear:both;
