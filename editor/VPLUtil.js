@@ -476,6 +476,7 @@
             'find_replace' : 'exchange',
             'next' : 'search-plus',
             'resetfiles' : 'refresh',
+            'correctedfiles' : 'graduation-cap',
             'download' : 'download',
             'fullscreen' : 'expand',
             'regularscreen' : 'compress',

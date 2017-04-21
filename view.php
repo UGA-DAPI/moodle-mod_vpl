@@ -61,13 +61,13 @@ $vpl->print_submission_restriction();
 $vpl->print_variation( $userid );
 echo $OUTPUT->box_end();
 $vpl->print_fulldescription();
-$fr = $vpl->get_required_fgm();
+$fr = $vpl->get_fgm('required');
 if ($fr->is_populated()) {
-    echo '<h2>' . get_string( 'requestedfiles', VPL ) . "</h2>\n";
+    echo '<h2>' . get_string( 'requiredfiles', VPL ) . "</h2>\n";
     $fr->print_files( false );
 }
 if ($vpl->has_capability( VPL_GRADE_CAPABILITY )) {
-    $fe = $vpl->get_execution_fgm();
+    $fe = $vpl->get_fgm('execution');
     if ($fe->is_populated()) {
         echo '<h2>' . get_string( 'executionfiles', VPL ) . "</h2>\n";
         $fe->print_files( false );

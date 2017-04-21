@@ -194,7 +194,7 @@ class mod_vpl_submission_CE extends mod_vpl_submission {
             $data->jailservers = '';
         }
         // Execution files.
-        $sfg = $vpl->get_execution_fgm();
+        $sfg = $vpl->get_fgm('execution');
         $list = $sfg->getFileList();
         foreach ($list as $filename) {
             // Skip unneeded script.

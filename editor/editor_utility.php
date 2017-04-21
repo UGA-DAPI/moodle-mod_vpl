@@ -211,6 +211,7 @@ class vpl_editor_util {
                 'connection_fail',
                 'console',
                 'copy',
+                'correctedfiles',
                 'create_new_file',
                 'cut',
                 'debug',
@@ -256,6 +257,7 @@ class vpl_editor_util {
                 'select_all',
                 'shortcuts',
                 'sureresetfiles',
+                'surecorrectedfiles',
                 'timeleft',
                 'timeout',
                 'undo'

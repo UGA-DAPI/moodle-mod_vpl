@@ -48,6 +48,7 @@ $string ['connection_closed'] = 'connection closed';
 $string ['connection_fail'] = 'connection fail';
 $string ['console'] = 'Console';
 $string ['copy'] = 'Copy';
+$string ['correctedfiles'] = 'Corrected files';
 $string ['create_new_file'] = 'Create a new file';
 $string ['currentstatus'] = 'Current status';
 $string ['cut'] = 'Cut';
@@ -189,7 +190,7 @@ $string ['removegrade'] = 'Remove grade';
 $string ['rename'] = 'Rename';
 $string ['rename_file'] = 'Rename file';
 $string ['replace_find'] = 'Replace/Find';
-$string ['requestedfiles'] = 'Requested files';
+$string ['requiredfiles'] = 'Requested files';
 $string ['requirednet'] = 'Allowed submission from net';
 $string ['requiredpassword'] = 'A password is required';
 $string ['resetfiles'] = 'Reset files';
@@ -231,8 +232,10 @@ $string ['submittedby'] = 'Submitted by {$a}';
 $string ['submittedon'] = 'Submitted on';
 $string ['submittedonp'] = 'Submitted on {$a}';
 $string ['sureresetfiles'] = 'Do you want to lost all your work and reset the files to its original state?';
+$string ['surecorrectedfiles'] = 'Do you want to lost all your work and reset the files to its corrected files?';
 $string ['test'] = 'Test activity';
 $string ['testcases'] = 'Test cases';
+$string ['testcasesfiles'] = 'Test cases file';
 $string ['timelimited'] = 'Time limited';
 $string ['timeleft'] = 'Time left';
 $string ['timeout'] = 'Timeout';
@@ -276,6 +279,9 @@ $string ['depends_on_https'] = 'Use ws or wss depending on if using http or http
 
 $string ['check_jail_servers_help'] = "<p>This page check and show the status of execution servers used
 for this activity.</p>";
+$string ['correctedfiles_help'] = '<p>Here you set names and its content up for the corrected files to the max number of files that was set in the basic description of the activity.</p>
+<p>If you don\'t set names for whole number of files, the unnamed files are optional and can have any name.</p>
+<p>You also can add contents to the corrected files, so these contents will be available for teacher.</p>';
 $string ['executionfiles_help'] = '<h2>Introduction</h2>
 <p>Here you set the files that are needed to prepare the execution,
 debug or assessment of a submission. This includes scripting files,
@@ -389,13 +395,13 @@ $string ['modulename_help'] = '<p>VPL is a activity module for Moodle that manag
 </ul>
 <p><a href="http://vpl.dis.ulpgc.es">Virtual Programming lab Home Page</a></p>';
 $string ['modulename_link'] = 'mod/vpl/view';
-$string ['requestedfiles_help'] = '<p>Here you set names and its initial content up for the requested files to the max number of files that was set in the basic description of the activity.</p>
+$string ['requiredfiles_help'] = '<p>Here you set names and its initial content up for the requested files to the max number of files that was set in the basic description of the activity.</p>
 <p>If you don\'t set names for whole number of files, the unnamed files are optional and can have any name.</p>
 <p>You also can add contents to the requested files, so these contents will be available the first time that they will be opened with the editor, if no previous submission exists.</p>';
 $string ['resourcelimits_help'] = '<p>You can set limits for the execution time, the memory used, the execution files sizes and the number of processes to be executed simultaneously.</p>
 <p>These limits are used when running the scripting files vpl_run.sh, vpl_debug.sh and vpl_evaluate.sh and the file vpl_execution built by them.</p>
 <p>If this activity is based on other activity, the limits can be affected by those set in the base activity and its ancestors or in the global configuration of the module.</p>';
-$string ['testcases_help'] = '<p>This feature allows to run the student program and check its output for a given input.  To set up the evaluation cases you must populate the file &quot;vpl_evaluate.cases&quot;.</p>
+$string ['testcasesfiles_help'] = '<p>This feature allows to run the student program and check its output for a given input.  To set up the evaluation cases you must populate the file &quot;vpl_evaluate.cases&quot;.</p>
 <p>The file "vpl_evaluate.cases" has the following format:
 <ul>
 <li> "<strong>case </strong>= Description of case": Optional. Set an start of test case definition.</li>

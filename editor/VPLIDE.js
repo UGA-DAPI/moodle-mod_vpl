@@ -47,6 +47,7 @@
                 'evaluate' : true,
                 'import' : true,
                 'resetfiles' : true,
+                'correctedfiles' : true,
                 'sort' : true,
                 'console' : true,
                 'comments' : true
@@ -1267,6 +1268,25 @@
                     });
                 }
             });
+            function correctedFiles() {
+                VPL_Util.requestAction('correctedfiles', '', {}, options.ajaxurl, function(response) {
+                    var files = response.files;
+                    for (var fileName in files) {
+                        file_manager.addFile(files[fileName], true, VPL_Util.doNothing, showErrorMessage);
+                    }
+                    file_manager.fileListVisibleIfNeeded();
+                    VPL_Util.delay(updateMenu);
+                }, showErrorMessage);
+            }
+            menuButtons.add({
+                name:'correctedfiles',
+                originalAction: function() {
+                    showMessage(str('surecorrectedfiles'), {
+                        title : str('correctedfiles'),
+                        ok : correctedFiles
+                    });
+                }
+            });
             menuButtons.add({
                 name:'save',
                 originalAction: function() {
@@ -1391,6 +1411,7 @@
             menu_html += menuButtons.getHTML('import');
             menu_html += menuButtons.getHTML('download');
             menu_html += menuButtons.getHTML('resetfiles');
+            menu_html += menuButtons.getHTML('correctedfiles');
             menu_html += menuButtons.getHTML('sort');
             menu_html += "</span> ";
             // TODO print still not implemented.

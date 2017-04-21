@@ -81,6 +81,11 @@ try {
             $files = mod_vpl_edit::get_requested_files( $vpl );
             $outcome->response->files = mod_vpl_edit::filestoide( $files );
             break;
+        case 'correctedfiles' :
+            $fgm = $vpl->get_fgm('corrected');
+            $files = $fgm->getallfiles();
+            $outcome->response->files = mod_vpl_edit::filestoide( $files );
+            break;
         case 'load' :
             if ( isset($actiondata->submissionid) &&
                 $actiondata->submissionid > 0 &&
