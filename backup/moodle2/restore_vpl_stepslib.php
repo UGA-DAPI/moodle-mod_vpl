@@ -28,7 +28,7 @@ class restore_vpl_activity_structure_step extends restore_activity_structure_ste
         global $DB;
         if ( isset($this->basedonnames[$data->id]) ) {
             $basedonname = $this->basedonnames[$data->id];
-            $basedon = $DB->get_record( 'vpl', array ( 'course' => $data->course, 'name' => $basedonname ));
+            $basedon = $DB->get_record( 'vpl', array (  'name' => $basedonname ));
             if ( $basedon != false ) {
                 return $basedon->id;
             }
@@ -41,6 +41,7 @@ class restore_vpl_activity_structure_step extends restore_activity_structure_ste
 
         $paths [] = new restore_path_element ( 'vpl', '/activity/vpl' );
         $paths [] = new restore_path_element ( 'required_file', '/activity/vpl/required_files/required_file' );
+        $paths [] = new restore_path_element ( 'corrected_file', '/activity/vpl/corrected_files/corrected_file' );
         $paths [] = new restore_path_element ( 'execution_file', '/activity/vpl/execution_files/execution_file' );
         $paths [] = new restore_path_element ( 'variation', '/activity/vpl/variations/variation' );
         if ($userinfo) {
@@ -90,6 +91,12 @@ class restore_vpl_activity_structure_step extends restore_activity_structure_ste
         fclose ( $fp );
     }
     protected function process_required_file($data) {
+        global $CFG;
+        $vplid = $this->get_new_parentid ( 'vpl' );
+        $path = $CFG->dataroot . '/vpl_data/' . $vplid . '/';
+        $this->process_groupfile ( $data, $path );
+    }
+    protected function process_corrected_file($data) {
         global $CFG;
         $vplid = $this->get_new_parentid ( 'vpl' );
         $path = $CFG->dataroot . '/vpl_data/' . $vplid . '/';

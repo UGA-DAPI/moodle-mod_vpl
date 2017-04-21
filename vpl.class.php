@@ -140,18 +140,11 @@ class mod_vpl {
     protected $instance;
 
     /**
-     * Internal var object to requied file group manager
+     * Internal var array of object to  file group manager
      *
-     * @var object of file group manager
+     * @var araay of object of file group manager
      */
-    protected $requiredfgm;
-
-    /**
-     * Internal var object to execution file group manager
-     *
-     * @var object of file group manager
-     */
-    protected $executionfgm;
+    protected $fgm;
 
     /**
      * Constructor
@@ -195,8 +188,7 @@ class mod_vpl {
                 // Don't stop on error. This let delete a corrupted course.
             }
         }
-        $this->requiredfgm = null;
-        $this->executionfgm = null;
+        $this->fgm = array();
     }
 
     /**
@@ -283,86 +275,52 @@ class mod_vpl {
     }
 
     /**
-     *
-     * @return directory to stored initial required files
+     * @param $type string
+     * @return directory to stored initial files
      */
-    public function get_required_files_directory() {
-        return $this->get_data_directory() . '/required_files/';
+    public function get_files_directory($type) {
+        return $this->get_data_directory() . '/'.$type.'_files/';
+    }
+
+    /**
+     * @param $type string
+     * @return filename to store  files
+     */
+    public function get_files_filename($type) {
+        return $this->get_data_directory() . '/'.$type.'_files.lst';
+    }
+
+    /**
+     * @param $type string
+     * @return array of files name
+     */
+    public function get_files($type) {
+        return vpl_read_list_from_file( $this->get_files_filename($type) );
     }
 
     /**
      *
-     * @return filename to store required files
-     */
-    public function get_required_files_filename() {
-        return $this->get_data_directory() . '/required_files.lst';
-    }
-
-    /**
-     *
-     * @return array of files required name
-     */
-    public function get_required_files() {
-        return vpl_read_list_from_file( $this->get_required_files_filename() );
-    }
-
-    /**
-     *
+     * @param $type string
      * @param $files array
-     *            of required files
+     *            of  files
      */
-    public function set_required_files($files) {
-        vpl_write_list_to_file( $this->get_required_files_filename(), $files );
+    public function set_files($type,$files) {
+        vpl_write_list_to_file( $this->get_files_filename($type), $files );
     }
 
     /**
-     *
-     * @return object file group manager for required files
+     * @param $type string
+     * @return object file group manager for  files
      */
-    public function get_required_fgm() {
-        if (! $this->requiredfgm) {
-            $this->requiredfgm = new file_group_process( $this->get_required_files_filename()
-                                                       , $this->get_required_files_directory()
+    public function get_fgm($type) {
+        if (! isset($this->fgm[$type])) {
+            $this->fgm[$type] = new file_group_process( $this->get_files_filename($type)
+                                                       , $this->get_files_directory($type)
                                                        , $this->instance->maxfiles );
         }
-        return $this->requiredfgm;
+        return $this->fgm[$type];
     }
 
-    /**
-     *
-     * @return directory to stored execution files
-     */
-    public function get_execution_files_directory() {
-        return $this->get_data_directory() . '/execution_files/';
-    }
-
-    /**
-     *
-     * @return filename to store execution files
-     */
-    public function get_execution_files_filename() {
-        return $this->get_data_directory() . '/execution_files.lst';
-    }
-
-    /**
-     *
-     * @return array of files execution name
-     */
-    public function get_execution_files() {
-        return vpl_read_list_from_file( $this->get_execution_files_filename() );
-    }
-
-    /**
-     *
-     * @return object file group manager for execution files
-     */
-    public function get_execution_fgm() {
-        if (! $this->executionfgm) {
-            $this->executionfgm = new file_group_execution( $this->get_execution_files_filename(),
-                    $this->get_execution_files_directory() );
-        }
-        return $this->executionfgm;
-    }
     // FIXME check and remove function.
     public function set_initial_file($name, $files) {
         $filelist = '';
@@ -598,7 +556,7 @@ class mod_vpl {
      */
     public function pass_submission_restriction(& $alldata, & $error) {
         $max = $this->get_maxfilesize();
-        $rfn = $this->get_required_fgm();
+        $rfn = $this->get_fgm('required');
         $list = $rfn->getFilelist();
         $error = '';
         if (count( $alldata ) > $this->instance->maxfiles) {
@@ -1414,6 +1372,23 @@ class mod_vpl {
                                 $strlistprevoiussubmissions );
                     }
                 }
+                if ($subinstance !== false) {
+                    $gradinginstance = $submission->get_grading_instance();
+                    
+                    if ($gradinginstance) {
+                        $gradingmanager = get_grading_manager($this->get_context(), 'mod_vpl', 'submissions');
+                        if ($gradingmethod = $gradingmanager->get_active_method()) {
+                            $gradingcontroller = $gradingmanager->get_controller($gradingmethod);
+                            $advancedgradingareas = $gradingmanager->get_available_areas();
+                            if ($gradingcontroller->is_form_defined() && ($options = $gradingcontroller->get_options()) && !empty($options['alwaysshowdefinition'])) {
+                                //$node->add(get_string('gradingof', 'gradingform_rubric', get_grading_manager($this->get_areaid())->get_area_title()),
+                                $href =  new moodle_url('/grade/grading/form/'.$gradingmethod.'/preview.php', array('areaid' => $gradingcontroller->get_areaid()));
+                                //$href = vpl_mod_href( 'views/previoussubmissionslist.php', 'id', $cmid, 'userid', $userid );
+                                $tabs [] = new tabobject( 'gradingpreview.php', $href, get_string('gradingof', 'gradingform_'.$gradingmethod, $gradingmanager->get_area_title()));
+                            }
+                        }
+                    }
+                }
                 // Show user picture if this activity require password.
                 if (! isset( $user ) && $this->instance->password > '') {
                     $user = $DB->get_record( 'user', array (
@@ -1517,7 +1492,7 @@ class mod_vpl {
     public function print_submission_restriction() {
         global $CFG, $USER;
         // TODO print_submission_restriction.
-        $filegroup = $this->get_required_fgm();
+        $filegroup = $this->get_fgm('required');
         $files = $filegroup->getfilelist();
         if (count( $files )) {
             $text = '';
@@ -1530,11 +1505,11 @@ class mod_vpl {
                 $needcomma = true;
             }
             $link = ' (<a href="';
-            $link .= vpl_mod_href( 'views/downloadrequiredfiles.php', 'id', $this->get_course_module()->id );
+            $link .= vpl_mod_href( 'views/downloadfiles.php', 'id', $this->get_course_module()->id ,'type','required');
             $link .= '">';
             $link .= get_string( 'download', VPL );
             $link .= '</a>)';
-            $this->print_restriction( 'requestedfiles', $text . $link );
+            $this->print_restriction( 'requiredfiles', $text . $link );
         }
         if (count( $files ) != $this->instance->maxfiles) {
             $this->print_restriction( 'maxfiles' );

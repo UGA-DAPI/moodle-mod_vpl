@@ -52,12 +52,12 @@ if (! $vpl->has_capability( VPL_MANAGE_CAPABILITY ) && ! $vpl->has_capability( V
 
 // Prepares showing requiered and execution files.
 $showfr = false;
-$fr = $vpl->get_required_fgm();
+$fr = $vpl->get_fgm('required');
 if ( $fr->is_populated() ) {
     $showfr = true;
 }
 $showfe = false;
-$fe = $vpl->get_execution_fgm();
+$fe = $vpl->get_fgm('execution');
 if ( $vpl->has_capability( VPL_GRADE_CAPABILITY ) &&
     $fe->is_populated() ) {
     $showfe = true;
@@ -83,7 +83,7 @@ $vpl->print_variation( $userid );
 $vpl->print_fulldescription();
 
 if ( $showfr ) {
-    echo '<h2>' . get_string( 'requestedfiles', VPL ) . "</h2>\n";
+    echo '<h2>' . get_string( 'requiredfiles', VPL ) . "</h2>\n";
     $fr->print_files( false );
 }
 if ( $showfe ) {
