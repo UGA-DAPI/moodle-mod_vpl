@@ -141,7 +141,7 @@ class mod_vpl {
     /**
      * Internal var array of object to  file group manager
      *
-     * @var araay of object of file group manager
+     * @var array of object of file group manager
      */
     protected $fgm;
 
@@ -302,9 +302,14 @@ class mod_vpl {
      */
     public function get_fgm($type) {
         if (! isset($this->fgm[$type])) {
+            if ($type=='execution'){
+            $this->fgm[$type] = new file_group_execution( $this->get_files_filename($type)
+                                                       , $this->get_files_directory($type) );
+            }else{
             $this->fgm[$type] = new file_group_process( $this->get_files_filename($type)
                                                        , $this->get_files_directory($type)
                                                        , $this->instance->maxfiles );
+            }
         }
         return $this->fgm[$type];
     }
