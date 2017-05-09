@@ -192,7 +192,7 @@ $string ['removegrade'] = 'Borra calificación';
 $string ['rename'] = 'Renombrar';
 $string ['rename_file'] = 'Renombrar fichero';
 $string ['replace_find'] = 'Reemplazar/Buscar';
-$string ['requestedfiles'] = 'Ficheros requeridos';
+$string ['requiredfiles'] = 'Ficheros requeridos';
 $string ['requirednet'] = 'Entregas restringidas a la red';
 $string ['requiredpassword'] = 'Se necesita una clave';
 $string ['resetfiles'] = 'Reestablecer ficheros';
@@ -434,7 +434,7 @@ $string ['modulename_help'] = '<p>VPL permite la gestión de prácticas de progr
 </ul></p>
 <p><a href="http://vpl.dis.ulpgc.es">Página oficial de Virtual Programming lab</a></p>';
 $string ['modulename_link'] = 'mod/vpl/view';
-$string ['requestedfiles_help'] = '<p>Aquí se fijan nombres y contenido inicial para los ficheros requeridos.</p>
+$string ['requiredfiles_help'] = '<p>Aquí se fijan nombres y contenido inicial para los ficheros requeridos.</p>
 <p>Si no se fijan nombres para el número máximo de ficheros establecido en la definición básica de la actividad, los ficheros para los que no se han establecido nombres son opcionales y pueden tener cualquier nombre.</p>
 <p>Además, se pueden establecer contenidos para los ficheros requeridos, de forma que dichos contenidos estarán disponibles la primera vez que el fichero se abra usando el editor, si no se ha realizado una entrega previa.</p>';
 $string ['resourcelimits_help'] = '<p>Se pueden establecer límites máximos para el tiempo de ejecución, la memoria usada, el tamaño de los ficheros generados durante la ejecución y el número de procesos simultáneos.</p>

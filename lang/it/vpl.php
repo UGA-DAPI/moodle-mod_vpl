@@ -281,8 +281,8 @@ $string['removegrade'] = 'Rimuovi voto';
 $string['rename'] = 'Rinomina';
 $string['rename_file'] = 'Rinomina file';
 $string['replace_find'] = 'Sostituisci\\Trova';
-$string['requestedfiles'] = 'File richiesti';
-$string['requestedfiles_help'] = '<p>Qui imposti i nomi e il contenuto iniziale per i file richiesti per un numero di file fino al numero massimo che è stato impostato nella descrizione base dell\'attività.</p>
+$string['requiredfiles'] = 'File richiesti';
+$string['requiredfiles_help'] = '<p>Qui imposti i nomi e il contenuto iniziale per i file richiesti per un numero di file fino al numero massimo che è stato impostato nella descrizione base dell\'attività.</p>
 <p>Se non imposti i nomi per tutti i file, i file senza nome sono opzionali e possono avere qualsiasi nome.</p>
 <p>Puoi anche aggiungere del contenuto ai file richiesti, così questi contenuti saranno disponibili la prima volta che gli studenti apriranno l\'editor, se non esistono precedenti consegne.</p>';
 $string['requirednet'] = 'Cosegna permessa dalla rete';

@@ -456,7 +456,7 @@ function vpl_extend_settings_navigation(settings_navigation $settings, navigatio
         $strtestcases = get_string( 'testcases', VPL );
         $strexecutionoptions = get_string( 'executionoptions', VPL );
         $menustrexecutionoptions = get_string( 'menuexecutionoptions', VPL );
-        $strrequestedfiles = get_string( 'requiredfiles', VPL );
+        $strrequiredfiles = get_string( 'requiredfiles', VPL );
         $strcorrectedfiles = get_string( 'correctedfiles', VPL );
         $strexecution = get_string( 'execution', VPL );
         $vplindex = get_string( 'modulenameplural', VPL );
@@ -483,7 +483,7 @@ function vpl_extend_settings_navigation(settings_navigation $settings, navigatio
         ) )  , navigation_node::TYPE_SETTING );
         $vplnode->add_node( $node, $fkn );
         $advance = $vplnode->create( get_string( 'advancedsettings' ), null, navigation_node::TYPE_CONTAINER );
-        $node = $vplnode->create( $strrequestedfiles, new moodle_url( '/mod/vpl/forms/files.php', array (
+        $node = $vplnode->create( $strrequiredfiles, new moodle_url( '/mod/vpl/forms/files.php', array (
                 'id' => $PAGE->cm->id,
                 'type' => 'required'
         ) )   , navigation_node::TYPE_SETTING );

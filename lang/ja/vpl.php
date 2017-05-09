@@ -208,7 +208,7 @@ $string ['replace_all_next'] = '次の検索文字列をすべて置換';
 $string ['replace_find'] = '置換/検索';
 $string ['replace_find_next'] = '置換して次の検索文字列を検索';
 $string ['replace_selection_if_match'] = '検索文字列にマッチするならセレクションを置換';
-$string ['requestedfiles'] = '要求されたファイル';
+$string ['requiredfiles'] = '要求されたファイル';
 $string ['requirednet'] = '提出が許可されたネットワーク';
 $string ['requiredpassword'] = 'パスワードが必要です';
 $string ['resetfiles'] = 'ファイルのリセット';
@@ -459,7 +459,7 @@ $string ['modulename_help'] = '<p>VPLは、プログラミング課題の管理�
 </ul>
 <p><a href="http://vpl.dis.ulpgc.es">Virtual Programming lab</a></p>';
 $string ['modulename_link'] = 'mod/vpl/view';
-$string ['requestedfiles_help'] = '<h1>要求されたファイル</h1>
+$string ['requiredfiles_help'] = '<h1>要求されたファイル</h1>
 <p>ここでは、活動の基本部で指定されたファイル数まで、要求されたファイルの名前を指定する。</p>
 <p>もしファイル名が指定されていない物があれば、それらは提出しないことも可能であり、どんな名前を付けても良い。</p>
 <p>要求されたファイルの内容を登録することも可能で、その場合、まだファイルが提出されていない間は、最初にエディタでファイルを開いたときにその内容が用いられる。</p>';

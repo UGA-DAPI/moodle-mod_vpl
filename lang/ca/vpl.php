@@ -67,7 +67,7 @@ $string ['requirednet'] = 'Lliuraments restringits a la xarxa';
 $string ['noright'] = 'No teniu permís per accedir';
 $string ['notexecuted'] = 'No executat';
 $string ['novpls'] = 'No hi ha laboratori de programació definit';
-$string ['requestedfiles'] = 'Fitxers requerits';
+$string ['requiredfiles'] = 'Fitxers requerits';
 $string ['submission'] = 'Lliurament';
 $string ['submissionperiod'] = 'Període de lliurament';
 $string ['submissionrestrictions'] = 'Restriccions de lliurament';
@@ -458,7 +458,7 @@ $string ['modulename_help'] = '<p><b>VPL. Laboratori Virtual de Programaci&oacut
 </ul>
 <p><a href="http://vpl.dis.ulpgc.es">Virtual Programming lab</a></p>';
 $string ['modulename_link'] = 'mod/vpl/view';
-$string ['requestedfiles_help'] = '<h1>Fitxers requerits</h1>
+$string ['requiredfiles_help'] = '<h1>Fitxers requerits</h1>
 <p>Aqu&iacute; es fixen noms pels fitxers requerits.</p>
 <p>Si no es fixen noms pel nombre m&agrave;xim de fitxers establert en la definici&oacute; b&agrave;sica de l\'activitat, els fitxers pels que no s\'han establert noms s&oacute;n opcionals i poden tenir qualsevol nom.</p>
 <p>A m&eacute;s, es poden establir continguts pels fitxers requerits, de forma que aquests continguts estaran disponibles la primera vegada que el fitxer s\'obri utilitzant l\'editor, si no se ha realitzat un lliurament previ.</p>';

@@ -42,7 +42,7 @@ $string ['gradeoptions'] = 'Opcje oceniania';
 $string ['visiblegrade'] = 'Widoczny';
 $string ['nojailavailable'] = 'Brak dostępnego Jail Serwera';
 $string ['noright'] = 'Nie masz prawa dostępu';
-$string ['requestedfiles'] = 'Żądane pliki';
+$string ['requiredfiles'] = 'Żądane pliki';
 $string ['execution'] = 'Wykonanie';
 $string ['editing'] = 'Edycja';
 $string ['basic'] = 'Podstawy';
@@ -327,7 +327,7 @@ $string ['index_help'] = '
   <li><a href="help.php?module=vpl&amp;file=mods.html">Podstawy</a></li>
   <li><a href="help.php?module=vpl&amp;file=fulldescription.html">Pełny opis</a></li>
   <li><a href="help.php?module=vpl&amp;file=variations.html">Wariacje</a></li>
-  <li><a href="help.php?module=vpl&amp;file=requestedfiles.html">Żądane pliki</a></li>
+  <li><a href="help.php?module=vpl&amp;file=requiredfiles.html">Żądane pliki</a></li>
   <li>Wykonanie
   <ul>
   <li><a href="help.php?module=vpl&amp;file=executionfiles.html">Pliki wykonywalne</a></li>
@@ -365,7 +365,7 @@ $string ['modulename_help'] = '
 </ul>
 <p><a href="http://vpl.dis.ulpgc.es">Virtual Programming lab</a></p>';
 $string ['modulename_link'] = 'mod/vpl/view';
-$string ['requestedfiles_help'] = '
+$string ['requiredfiles_help'] = '
 <h1>Żądane pliki</h1>
 <p>Tutaj ustawia się nazwy żądanych plików do maksymalnego numeru pliku, który został określony w podstawowych wymaganiach ćwiczenia.</p>
 <p>Jeśli nie ustawisz nazw dla wszystkich plików, nienazwane pliki opcjonalnie mogą mieć jakąś nazwę.</p>

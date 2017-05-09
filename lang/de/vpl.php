@@ -41,7 +41,7 @@ $string ['gradeoptions'] = 'Benotungseinstellungen';
 $string ['visiblegrade'] = 'Sichtbar';
 $string ['nojailavailable'] = 'Kein Jail-Server verfügbar';
 $string ['noright'] = 'Keine ausreichenden Zugriffsberechtigungen';
-$string ['requestedfiles'] = 'Erforderliche Dateien';
+$string ['requiredfiles'] = 'Erforderliche Dateien';
 $string ['execution'] = 'Ausführung';
 $string ['editing'] = 'Bearbeiten';
 $string ['basic'] = 'Einfach';
@@ -436,7 +436,7 @@ $string ['modulename_help'] = '<p>VPL ist ein Aktivitätsmodul für Moodle, das 
 </ul>
 <p><a href="http://vpl.dis.ulpgc.es">Virtual Programming lab</a></p>';
 $string ['modulename_link'] = 'mod/vpl/view';
-$string ['requestedfiles_help'] = '<p>Hier können Namen für die erforderlichen Dateien gesetzt werden.</p>
+$string ['requiredfiles_help'] = '<p>Hier können Namen für die erforderlichen Dateien gesetzt werden.</p>
 <p>Wenn nicht für alle erforderlichen Dateien Namen gesetzt werden sind die unbenannten Dateien optionen und können beliebige Namen erhalten.</p>
 <p>Man kann zusätzlich bereits Inhalte für die erforderlichen Dateien erzeugen, die beim ersten Öffnen mit dem Editor sichtbar werden, wenn noch keine andere Abgabe vorhanden ist.</p>';
 $string ['resourcelimits_help'] = '<p>Grenzen für das Maximum können für die Ausführungszeit, den benutzten Arbeitsspeicher, die Ausführungsdateigrößen und die Anzahl der gleichzeitigen Prozesse gesetzt werden.</p>
