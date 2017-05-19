@@ -498,6 +498,7 @@
                         html += lines[i] + '<br />';
                     }
                     file_list_content.html('<div>' + html + '</div>');
+		    autoResizeTab();
                 };
                 tabs_ul.on('click', 'span.vpl_ide_closeicon', function() {
                     file_manager.close(file_manager.currentFile());
