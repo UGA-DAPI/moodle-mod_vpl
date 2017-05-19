@@ -118,6 +118,7 @@ if ($copy && $grader) {
 }
 $vpl->print_header( get_string( 'edit', VPL ) );
 $vpl->print_view_tabs( basename( __FILE__ ) );
+print_collapsible_region($vpl->get_fulldescription(),'','vpl_edit_description',get_string( 'description', VPL ));
 echo $OUTPUT->box_start();
 vpl_editor_util::print_tag( $options );
 echo $OUTPUT->box_end();
