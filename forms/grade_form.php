@@ -98,13 +98,13 @@ class mod_vpl_grade_form extends moodleform {
                        array('gradinginstance' => $gradinginstance)); 
             $mform->addElement('hidden','advancedgradinginstanceid', $gradinginstance->get_id());
             $mform->setType('advancedgradinginstanceid', PARAM_INT);
-        }
         // Numeric grade.
             if ($grade > 0) {
                 // Link to recalculate numeric grade from comments.
                 $jscript = 'VPL.mergeGrade(' . $grade . ','.$graderaw.','.$gridscore.')';
                 $mform->addElement('button','btnmerge', get_string( 'merge', VPL ),'onclick="' . $jscript . '"' );
             }
+        }
         $mform->addElement('header','hGrade', get_string( 'grade') );
             
         $buttonarray=array();
