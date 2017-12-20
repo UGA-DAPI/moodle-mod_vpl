@@ -323,5 +323,20 @@ function xmldb_vpl_upgrade($oldversion = 0) {
         // VPL savepoint reached.
         upgrade_mod_savepoint( true, 2017042102, 'vpl' );
     }
+    if ($oldversion < 2017121314) {
+        // Define table vpl  to be created.
+        $table = new xmldb_table( 'vpl' );
+
+        // Adding fields to table vpl.
+        $field = new xmldb_field( 'allowshowprevious', XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED, null, null, '0', 'restrictededitor' );
+
+        // Conditionally launch add field worktype.
+        if (! $dbman->field_exists( $table, $field )) {
+            $dbman->add_field( $table, $field );
+        }
+
+        // VPL savepoint reached.
+        upgrade_mod_savepoint( true, 2017042101, 'vpl' );
+    }
     return true;
 }
