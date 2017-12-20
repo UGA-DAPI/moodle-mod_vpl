@@ -95,7 +95,7 @@ if ($subinstance->dategraded == 0 || $subinstance->grader == $USER->id || $subin
     } else {
         $href = 'gradesubmission.php';
     }
-    $gradeform = new mod_vpl_grade_form( $href, $submission);
+    $gradeform = new mod_vpl_grade_form( $href, $vpl,$submission );
     if ($gradeform->is_cancelled()) { // Grading canceled.
         vpl_inmediate_redirect( $link );
     } else if ($fromform = $gradeform->get_data()) { // Grade (new or update).
@@ -130,6 +130,11 @@ if ($subinstance->dategraded == 0 || $subinstance->grader == $USER->id || $subin
             $action = 'update grade';
         } else {
             $action = 'grade';
+        }
+        $gradinginstance = $submission->get_grading_instance();
+        if ($gradinginstance) {
+            $advancedgrading = $gradinginstance->submit_and_get_grade($fromform->advancedgrading,
+                                                                   $submissionid);
         }
         if (! $submission->set_grade( $fromform )) {
             vpl_redirect( $link, get_string( 'gradenotsaved', VPL ), 'error' );
@@ -195,22 +200,8 @@ if ($subinstance->dategraded == 0 || $subinstance->grader == $USER->id || $subin
                 }
             }
         }
-
         $gradeform->set_data( $data );
-        echo '<div id="vpl_grade_view">';
-        echo '<div id="vpl_grade_form">';
         $gradeform->display();
-        echo '</div>';
-        echo '<div id="vpl_grade_comments">';
-        $comments = $vpl->get_grading_help();
-        if ($comments > '') {
-            echo $OUTPUT->box_start();
-            echo '<b>' . get_string( 'listofcomments', VPL ) . '</b><hr />';
-            echo $comments;
-            echo $OUTPUT->box_end();
-        }
-        echo '</div>';
-        echo '</div>';
         echo '<div id="vpl_submission_view">';
         echo '<hr />';
         $vpl->print_variation( $subinstance->userid );

@@ -37,6 +37,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(dirname(__FILE__).'/vpl.class.php');
 require_once(dirname(__FILE__).'/views/sh_factory.class.php');
 require_once(dirname(__FILE__).'/views/show_hide_div.class.php');
+require_once($CFG->dirroot . '/grade/grading/lib.php');
 
 // Non static due to usort error.
 function vpl_compare_filenamebylengh($f1, $f2) {
@@ -428,6 +429,11 @@ class mod_vpl_submission {
                 unlink( $fn );
             }
             // Update gradebook.
+            $gradinginstance = $this->get_grading_instance();
+            if ($gradinginstance) {
+                $advancedgrading = $gradinginstance->submit_and_get_grade($info->advancedgrading,
+                                                                       $this->instance->id);
+            }
             $grades = array ();
             $gradeinfo = array ();
             // If no grade then don't set rawgrade and feedback.
@@ -599,6 +605,38 @@ class mod_vpl_submission {
         }
         return $graderuser;
     }
+    
+     /**
+     * Get an instance of a grading form if advanced grading is enabled.
+     * This is specific to the assignment, marker and student.
+     *
+     * @return mixed gradingform_instance|null $gradinginstance
+     */
+    public function get_grading_instance() {
+        global $CFG, $USER;
+
+        $grademenu = make_grades_menu($this->get_instance()->grade);
+        $allowgradedecimals = $this->get_instance()->grade > 0;
+
+        $advancedgradingwarning = false;
+        $gradingmanager = get_grading_manager($this->vpl->get_context(), 'mod_vpl', 'submissions');
+        $gradinginstance = null;
+        if ($gradingmethod = $gradingmanager->get_active_method()) {
+            $controller = $gradingmanager->get_controller($gradingmethod);
+            if ($controller->is_form_available()) {
+                $instanceid = optional_param('advancedgradinginstanceid', 0, PARAM_INT);
+                $gradinginstance = $controller->get_or_create_instance($instanceid,
+                                                                       $USER->id,
+                                                                       $this->instance->id);
+            } else {
+                $advancedgradingwarning = $controller->form_unavailable_notification();
+            }
+        }
+        if ($gradinginstance) {
+            $gradinginstance->get_controller()->set_grade_range($grademenu, $allowgradedecimals);
+        }
+        return $gradinginstance;
+    }
 
     /**
      * Get core grade @parm optional grade to show
@@ -668,7 +706,7 @@ class mod_vpl_submission {
      * @return mix string/void
      */
     public function print_grade($detailed = false, $return = false) {
-        global $CFG, $OUTPUT;
+        global $CFG, $OUTPUT,$PAGE,$USER;
         $ret = '';
         $inst = $this->instance;
         if ($inst->dategraded > 0) {
@@ -690,6 +728,20 @@ class mod_vpl_submission {
                         $ret .= "<script>VPL_Util.addResults('{$div->get_div_id()}', false, true);</script>";
                     }
                 }
+            }
+            $cangrade = has_capability(VPL_GRADE_CAPABILITY, $this->vpl->get_context());
+            // Only show the grade if it is not hidden in gradebook.
+            $userid = (has_capability( VPL_GRADE_CAPABILITY, $this->vpl->get_context() ) || has_capability(
+                        VPL_MANAGE_CAPABILITY, $this->vpl->get_context() )) ? null : $USER->id;
+            require_once($CFG->libdir . '/gradelib.php');
+            $gradeinfo = grade_get_grades( $this->vpl->get_course()->id, 'mod', 'vpl', $this->vpl->get_instance()->id, $userid );
+            $gradinginstance = $this->get_grading_instance();
+            if ($gradinginstance) {
+                $ret .= $gradinginstance->get_controller()->render_grade($PAGE,
+                                                             $this->instance->id,
+                                                             $gradeinfo,
+                                                             $this->instance->grade,
+                                                             $cangrade);
             }
             if (! empty( $CFG->enableoutcomes )) {
                 // Bypass unknow gradelib not load.
@@ -999,7 +1051,10 @@ class mod_vpl_submission {
                     $comment .= '</a>';
                 }
                 $comment .= '<br />';
-            } else { // Regular text.
+            } else if (strlen( $line ) > 1 && $line [0] == '#') { // Teacher comment
+                $html .= $this->get_last_comment( $title, $comment, $dropdown );
+                
+            }else{ // Regular text.
                 $comment .= $this->add_filelink( s( $line ) ) . '<br />';
             }
         }

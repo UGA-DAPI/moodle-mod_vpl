@@ -51,14 +51,22 @@
             form_view.style.width = (textarea.offsetWidth + 8) + 'px';
             grade_view.style.height = form_view.scrollHeight + 'px';
             comments_view.style.height = form_view.scrollHeight + 'px';
-            var commentsw = (grade_view.clientWidth - form_view.offsetWidth);
-            commentsw -= comments_view.offsetWidth - comments_view.clientWidth;
-            comments_view.style.width = commentsw + 'px';
+            comments_view.style.width = (grade_view.scrollWidth - form_view.scrollWidth - 8) + 'px';
+            var newHeight;
+            if (window.innerHeight) {
+                newHeight = window.innerHeight - VPL.getOffsetY(submission_view) - 35;
+            } else {
+                newHeight = document.documentElement.clientHeight - VPL.getOffsetY(submission_view) - 35;
+            }
+            if(newHeight < 300) {
+                newHeight = 300;
+            }
+            submission_view.style.height = newHeight + 'px';
         }
     };
 
     /* Set the resize controler */
-
+                
     VPL.resizeSView();
     setInterval(VPL.resizeSView, 1000);
     /**
@@ -73,7 +81,7 @@
         var match;
         while((match = regDiscount.exec(text)) !== null) {
             var rest = parseFloat(match[1]);
-            if (rest < 0) {
+                    if (rest < 0) {
                 grade += rest;
             }
         }
@@ -86,6 +94,39 @@
         form1.grade.value = grade;
     };
 
+/**
+     * Merge numeric grade from the proposed grade and advancedgrading
+     * end of lines. valid grade format: "- text (-grade)"
+     */
+    VPL.mergeGrade = function(maxgrade,vplgrade,gridscore) {
+        var form1 = window.document.getElementById('mform1');
+        var fieldcomments = form1.comments;
+        var text = new String(fieldcomments.value);
+        var grade = 0;
+        var rubricvalues = window.document.querySelectorAll("#mform1 .checked .score .scorevalue");
+        var find = false;
+        rubricvalues.forEach(function(item){
+            grade += new Number(item.textContent);
+        });
+        grade = vplgrade - ((vplgrade*gridscore/maxgrade)- grade)
+        var proposedcomment = '#Proposed grade : ' +vplgrade;
+        var gridcomment = '#Grid grade : ' +grade;
+        if (text.search('#Proposed grade')<0 ) {
+            text += proposedcomment+"\n";
+        }else{
+            text = text.replace(/#Proposed grade.*/,proposedcomment);  
+        }
+        if (text.search('#Grid grade') <0) {
+            text += gridcomment+"\n";
+        }else{
+            text = text.replace(/#Grid grade.*/,gridcomment);  
+        }
+        
+        fieldcomments.value = text;
+        /* Max two decimal points */
+        grade = Math.round(100 * grade) / 100;
+        form1.grade.value = grade;
+    };
     /**
      * Add new comment to the form comment string to add
      */
@@ -94,7 +135,7 @@
             return;
         }
         comment = '-' + comment;
-        var form1 = window.document.getElementById('form1');
+        var form1 = window.document.getElementById('mform1');
         var field = form1.comments;
         var text = field.value;
         if (text.indexOf(comment, 0) >= 0) { /* Comment already in form */
