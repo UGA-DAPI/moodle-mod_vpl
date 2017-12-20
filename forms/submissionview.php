@@ -71,19 +71,20 @@ if ($userid && $userid != $USER->id) {
     $vpl->require_capability( VPL_VIEW_CAPABILITY );
     $userid = $USER->id;
     $grader = false;
-    if ($submissionid && $vpl->has_capability( VPL_GRADE_CAPABILITY )) {
-        $subinstance = $DB->get_record( 'vpl_submissions', array (
-                'id' => $submissionid
-        ) );
-    } else {
-        $subinstance = $vpl->last_user_submission( $userid );
+        if ($submissionid && ($vpl->has_capability( VPL_GRADE_CAPABILITY )|| $instance->allowshowprevious) ) {
+            $subinstance = $DB->get_record( 'vpl_submissions', array (
+                    'id' => $submissionid
+            ) );
+        } else {
+            $subinstance = $vpl->last_user_submission( $userid );
+        }
     }
-}
-if ($subinstance != null && $subinstance->vpl != $vpl->get_instance()->id) {
-    print_error( 'invalidcourseid' );
-}
-if ($USER->id == $userid) {
-    $vpl->restrictions_check();
+    if ($subinstance != null && $subinstance->vpl != $vpl->get_instance()->id) {
+        print_error( 'invalidcourseid' );
+    }
+    if ($USER->id == $userid) {
+        $vpl->network_check();
+        $vpl->password_check();
 }
 // Print header.
 vpl_sh_factory::include_js();

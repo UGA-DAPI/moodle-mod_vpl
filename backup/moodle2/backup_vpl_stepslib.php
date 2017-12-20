@@ -117,6 +117,7 @@ class backup_vpl_activity_structure_step extends backup_activity_structure_step 
         'automaticgrading',
         'maxexetime',
         'restrictededitor',
+                'allowshowprevious',
         'example',
         'maxexememory',
         'maxexefilesize',

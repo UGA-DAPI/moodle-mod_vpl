@@ -30,25 +30,27 @@
 	    <FIELD NAME="automaticgrading" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Use automatic evaluation results as final grade and comments"/>
 	    <FIELD NAME="maxexetime" TYPE="int" LENGTH="6" NOTNULL="false" SEQUENCE="false" COMMENT="Maximum time in seconds to run, debug or evaluate the program"/>
 	    <FIELD NAME="restrictededitor" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Submission by means of restricted Code Editor that disable external paste."/>
+        <FIELD NAME="allowshowprevious" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Allow students ti show previous submissions list."/>
 	    <FIELD NAME="example" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="This activity has no submission, act as program example."/>
 	    <FIELD NAME="maxexememory" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Maximum memory in bytes allocable to run, debug or evaluate"/>
 	    <FIELD NAME="maxexefilesize" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Maximum size in bytes for every file created running, debugging or evaluating"/>
 	    <FIELD NAME="maxexeprocesses" TYPE="int" LENGTH="6" NOTNULL="false" SEQUENCE="false" COMMENT="Maximum number of processes can be running simultaneously"/>
 	    <FIELD NAME="jailservers" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="List of jail servers"/>
+
         <FIELD NAME="worktype" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Type of work 0=individual, 1=group"/>
-	    <FIELD NAME="emailteachers" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-	    <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when this VPL instance was last modified"/>
-	    <FIELD NAME="freeevaluations" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Number of automatic evaluations that do not reduce final score"/>
-	    <FIELD NAME="reductionbyevaluation" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Reduce final score by a value or percentage for each automatic evaluation"/>
-	    <FIELD NAME="sebrequired" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Safe Exam Browser required"/>
-	    <FIELD NAME="sebkeys" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Safe Exam Browser keys, one by line"/>
-	    <FIELD NAME="runscript" TYPE="char" LENGTH="63" NOTNULL="false" SEQUENCE="false" COMMENT="Name of script to run code"/>
-	    <FIELD NAME="debugscript" TYPE="char" LENGTH="63" NOTNULL="false" SEQUENCE="false" COMMENT="Name of script to debug code"/>
-	  </FIELDS>
-	  <KEYS>
-	    <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-	  </KEYS>
-	</TABLE>
+      <FIELD NAME="emailteachers" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Timestamp of when this VPL instance was last modified"/>
+      <FIELD NAME="freeevaluations" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Number of automatic evaluations that do not reduce final score"/>
+      <FIELD NAME="reductionbyevaluation" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Reduce final score by a value or percentage for each automatic evaluation"/>
+      <FIELD NAME="sebrequired" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Safe Exam Browser required"/>
+      <FIELD NAME="sebkeys" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Safe Exam Browser keys, one by line"/>
+      <FIELD NAME="runscript" TYPE="char" LENGTH="63" NOTNULL="false" SEQUENCE="false" COMMENT="Name of script to run code"/>
+      <FIELD NAME="debugscript" TYPE="char" LENGTH="63" NOTNULL="false" SEQUENCE="false" COMMENT="Name of script to debug code"/>
+    </FIELDS>
+    <KEYS>
+      <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+    </KEYS>
+  </TABLE>
     <TABLE NAME="vpl_submissions" COMMENT="Information about submission and grade">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
@@ -63,6 +65,7 @@
         <FIELD NAME="highlight" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="highlight this submission as (plagiarism, other .."/>
         <FIELD NAME="nevaluations" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of evaluations executed"/>
         <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

@@ -24,6 +24,7 @@ $string ['acceptcertificatesnote'] = "<p>You are using an encrypted connection.<
 $string ['addfile'] = 'Add file';
 $string ['advanced'] = 'Advanced';
 $string ['allfiles'] = 'All files';
+$string ['allowshowprevious'] = 'Allow student show previous submissions';
 $string ['allsubmissions'] = 'All submissions';
 $string ['anyfile'] = 'Any file';
 $string ['attemptnumber'] = 'Attempt number {$a}';

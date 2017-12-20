@@ -1634,7 +1634,7 @@ class mod_vpl {
                         $text = get_string( 'grade' );
                         $tabs [] = new tabobject( 'gradesubmission.php', $href, $text, $text );
                     }
-                    if ($subinstance && ($grader || $similarity)) {
+                    if ($subinstance && ($grader || $similarity|| $this->instance->allowshowprevious)) {
                         $strlistprevoiussubmissions = get_string( 'previoussubmissionslist', VPL );
                         $href = vpl_mod_href( 'views/previoussubmissionslist.php', 'id', $cmid, 'userid', $userid );
                         $tabs [] = new tabobject( 'previoussubmissionslist.php', $href, $strlistprevoiussubmissions,
