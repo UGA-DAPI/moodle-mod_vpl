@@ -297,8 +297,13 @@ class mod_vpl {
      * @param $type string
      * @return array of files name
      */
+<<<<<<< HEAD
+    public function get_required_files() {
+        return file_group_process::read_list( $this->get_required_files_filename() );
+=======
     public function get_files($type) {
         return vpl_read_list_from_file( $this->get_files_filename($type) );
+>>>>>>> v3.3dev-corrected_files
     }
 
     /**
@@ -307,8 +312,13 @@ class mod_vpl {
      * @param $files array
      *            of  files
      */
+<<<<<<< HEAD
+    public function set_required_files($files) {
+        file_group_process::write_list( $this->get_required_files_filename(), $files );
+=======
     public function set_files($type,$files) {
         vpl_write_list_to_file( $this->get_files_filename($type), $files );
+>>>>>>> v3.3dev-corrected_files
     }
 
     /**
@@ -324,6 +334,44 @@ class mod_vpl {
         return $this->fgm[$type];
     }
 
+<<<<<<< HEAD
+    /**
+     *
+     * @return directory to stored execution files
+     */
+    public function get_execution_files_directory() {
+        return $this->get_data_directory() . '/execution_files/';
+    }
+
+    /**
+     *
+     * @return filename to store execution files
+     */
+    public function get_execution_files_filename() {
+        return $this->get_data_directory() . '/execution_files.lst';
+    }
+
+    /**
+     *
+     * @return array of files execution name
+     */
+    public function get_execution_files() {
+        return file_group_process::read_list( $this->get_execution_files_filename() );
+    }
+
+    /**
+     *
+     * @return object file group manager for execution files
+     */
+    public function get_execution_fgm() {
+        if (! $this->executionfgm) {
+            $this->executionfgm = new file_group_execution( $this->get_execution_files_filename(),
+                    $this->get_execution_files_directory() );
+        }
+        return $this->executionfgm;
+    }
+=======
+>>>>>>> v3.3dev-corrected_files
     // FIXME check and remove function.
     public function set_initial_file($name, $files) {
         $filelist = '';
@@ -1604,6 +1652,23 @@ class mod_vpl {
                         $href = vpl_mod_href( 'views/previoussubmissionslist.php', 'id', $cmid, 'userid', $userid );
                         $tabs [] = new tabobject( 'previoussubmissionslist.php', $href, $strlistprevoiussubmissions,
                                 $strlistprevoiussubmissions );
+                    }
+                }
+                if ($subinstance !== false) {
+                    $gradinginstance = $submission->get_grading_instance();
+                    
+                    if ($gradinginstance) {
+                        $gradingmanager = get_grading_manager($this->get_context(), 'mod_vpl', 'submissions');
+                        if ($gradingmethod = $gradingmanager->get_active_method()) {
+                            $gradingcontroller = $gradingmanager->get_controller($gradingmethod);
+                            $advancedgradingareas = $gradingmanager->get_available_areas();
+                            if ($gradingcontroller->is_form_defined() && ($options = $gradingcontroller->get_options()) && !empty($options['alwaysshowdefinition'])) {
+                                //$node->add(get_string('gradingof', 'gradingform_rubric', get_grading_manager($this->get_areaid())->get_area_title()),
+                                $href =  new moodle_url('/grade/grading/form/'.$gradingmethod.'/preview.php', array('areaid' => $gradingcontroller->get_areaid()));
+                                //$href = vpl_mod_href( 'views/previoussubmissionslist.php', 'id', $cmid, 'userid', $userid );
+                                $tabs [] = new tabobject( 'gradingpreview.php', $href, get_string('gradingof', 'gradingform_'.$gradingmethod, $gradingmanager->get_area_title()));
+                            }
+                        }
                     }
                 }
                 // Show user picture if this activity require password.

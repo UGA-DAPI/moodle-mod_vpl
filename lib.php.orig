@@ -459,7 +459,7 @@ function vpl_extend_navigation(navigation_node $vplnode, $course, $module, $cm) 
         $parm = array ( 'id' => $cm->id, 'userid' => $userid );
     } else {
         $userid = $USER->id;
-        $parm = array ( 'id' => $cm->id );
+        $parm = array ( 'id' => $cm->id , 'userid' => $userid);
     }
     $strdescription = get_string( 'description', VPL );
     $strsubmission = get_string( 'submission', VPL );
@@ -485,12 +485,15 @@ function vpl_extend_navigation(navigation_node $vplnode, $course, $module, $cm) 
         }
         $vplnode->add( $strsubmissionview, new moodle_url( '/mod/vpl/forms/submissionview.php', $parm )
                        , navigation_node::TYPE_SETTING );
+<<<<<<< HEAD
         if ($grader || $similarity || $vpl->get_instance()->allowshowprevious) {
-
+=======
+        //if ($grader || $similarity) {
+>>>>>>> v3.3dev-corrected_files
             $strlistprevoiussubmissions = get_string( 'previoussubmissionslist', VPL );
             $vplnode->add( $strlistprevoiussubmissions, new moodle_url( '/mod/vpl/views/previoussubmissionslist.php', $parm )
                            , navigation_node::TYPE_SETTING );
-        }
+        //}
         if ($grader || $manager) {
             $strsubmissionslist = get_string( 'submissionslist', VPL );
             $vplnode->add( $strsubmissionslist, new moodle_url( '/mod/vpl/views/submissionslist.php', $parm )
@@ -518,7 +521,7 @@ function vpl_extend_settings_navigation(settings_navigation $settings, navigatio
         $strtestcases = get_string( 'testcases', VPL );
         $strexecutionoptions = get_string( 'executionoptions', VPL );
         $menustrexecutionoptions = get_string( 'menuexecutionoptions', VPL );
-        $strrequestedfiles = get_string( 'requestedfiles', VPL );
+        $strrequiredfiles = get_string( 'requiredfiles', VPL );
         $strcorrectedfiles = get_string( 'correctedfiles', VPL );
         $strexecution = get_string( 'execution', VPL );
         $vplindex = get_string( 'modulenameplural', VPL );
@@ -539,16 +542,21 @@ function vpl_extend_settings_navigation(settings_navigation $settings, navigatio
         $urlexecutionoptions = new moodle_url( '/mod/vpl/forms/executionoptions.php', $parms );
         $node = $vplnode->create( $strexecutionoptions, $urlexecutionoptions, navigation_node::TYPE_SETTING );
         $vplnode->add_node( $node, $fkn );
+<<<<<<< HEAD
         $urlrequiredfiles = new moodle_url( '/mod/vpl/forms/requiredfiles.php', $parms );
-        $node = $vplnode->create( $strrequiredfiles, new moodle_url( '/mod/vpl/forms/files.php', array (
-                'id' => $PAGE->cm->id,
-                'type' => 'required'
-        ) )   , navigation_node::TYPE_SETTING );
-        $vplnode->add_node( $node, $fkn );
+        $node = $vplnode->create( $strrequestedfiles, $urlrequiredfiles, navigation_node::TYPE_SETTING );
+=======
         $node = $vplnode->create( $strcorrectedfiles, new moodle_url( '/mod/vpl/forms/files.php', array (
                 'id' => $PAGE->cm->id,
                 'type' => 'corrected'
         ) )  , navigation_node::TYPE_SETTING );
+        $vplnode->add_node( $node, $fkn );
+        $advance = $vplnode->create( get_string( 'advancedsettings' ), null, navigation_node::TYPE_CONTAINER );
+        $node = $vplnode->create( $strrequiredfiles, new moodle_url( '/mod/vpl/forms/files.php', array (
+                'id' => $PAGE->cm->id,
+                'type' => 'required'
+        ) )   , navigation_node::TYPE_SETTING );
+>>>>>>> v3.3dev-corrected_files
         $vplnode->add_node( $node, $fkn );
         $urlexecutionfiles = new moodle_url( '/mod/vpl/forms/executionfiles.php', $parms );
         $stradvancedsettings = get_string( 'advancedsettings' );
