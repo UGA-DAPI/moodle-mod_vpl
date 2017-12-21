@@ -125,7 +125,7 @@ class mod_vpl_webservice extends external_api {
         $oldfiles = $files;
         $files = array();
         foreach ( $oldfiles as $file ) {
-            $files [ $file->name ] = $file->data;
+            $files [ $file['name'] ] = $file['data'];
         }
         mod_vpl_edit::save( $vpl, $USER->id, $files );
     }
