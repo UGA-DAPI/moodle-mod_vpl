@@ -486,7 +486,6 @@ function vpl_extend_navigation(navigation_node $vplnode, $course, $module, $cm) 
         $vplnode->add( $strsubmissionview, new moodle_url( '/mod/vpl/forms/submissionview.php', $parm )
                        , navigation_node::TYPE_SETTING );
         if ($grader || $similarity || $vpl->get_instance()->allowshowprevious) {
-
             $strlistprevoiussubmissions = get_string( 'previoussubmissionslist', VPL );
             $vplnode->add( $strlistprevoiussubmissions, new moodle_url( '/mod/vpl/views/previoussubmissionslist.php', $parm )
                            , navigation_node::TYPE_SETTING );
