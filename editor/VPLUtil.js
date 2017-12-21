@@ -395,6 +395,7 @@
             'v' : 'verilog',
             'vhd' : 'vhdl', 'vhdl' : 'vhdl',
             'xml' : 'xml',
+            'xsl' : 'xml',
             'yaml' : 'yaml'
         };
         VPL_Util.langType = function(ext) {
