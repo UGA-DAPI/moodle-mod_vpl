@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with VPL for Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Execution options form
  *
@@ -22,48 +22,90 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author Juan Carlos Rodríguez-del-Pino <jcrodriguez@dis.ulpgc.es>
  */
- 
+
 require_once(dirname(__FILE__).'/../../../config.php');
 require_once(dirname(__FILE__).'/../locallib.php');
 require_once(dirname(__FILE__).'/../vpl.class.php');
 require_once($CFG->libdir.'/formslib.php');
- 
+
 class mod_vpl_executionoptions_form extends moodleform {
     protected $vpl;
     public function __construct($page, $vpl) {
         $this->vpl = $vpl;
         parent::__construct( $page );
     }
+    protected function get_scriptdescription($filename) {
+        $data = file_get_contents($filename);
+        if ($data === false ) {
+            return '';
+        }
+        $result = preg_match('/@vpl_script_description (.*)$/im', $data, $matches);
+        if ( $result ) {
+            return ': ' . $matches[1];
+        }
+        return '';
+    }
+    protected function get_dirlist($dir, $endwith) {
+        $avoid = array('default' => 1);
+        $el = strlen($endwith);
+        $dirlist = scandir($dir);
+        $list = array();
+        foreach ($dirlist as $file) {
+            if ( substr($file, - $el) == $endwith) {
+                $name = substr($file, 0, - $el);
+                if ( ! isset( $avoid[$name] ) ) {
+                    $list[$name] = strtoupper($name) . $this->get_scriptdescription($dir . '/' . $file);
+                }
+            }
+        }
+        return $list;
+    }
+
+    protected function get_runlist() {
+        return $this->get_dirlist('../jail/default_scripts', '_run.sh');
+    }
+
+    protected function get_debuglist() {
+        return $this->get_dirlist('../jail/default_scripts', '_debug.sh');
+    }
+
     protected function definition() {
         $mform = & $this->_form;
         $id = $this->vpl->get_course_module()->id;
-        $instance = $this->vpl->get_instance();
-        $vplid = $instance->id;
         $mform->addElement( 'hidden', 'id', $id );
         $mform->setType( 'id', PARAM_INT );
         $mform->addElement( 'header', 'header_execution_options', get_string( 'executionoptions', VPL ) );
-        $mform->addElement('advcheckbox', 'usableasbase', get_string('usableasbase', VPL));
-        $mform->setType('usableasbase', PARAM_BOOL);
-        $mform->setDefault('usableasbase', $instance->usableasbase);
         $strbasedon = get_string( 'basedon', VPL );
         $basedonlist = array ();
         $basedonlist [0] = '';
-        $courseslist = array_keys(enrol_get_my_courses());
-        foreach ($courseslist as $courseid){
-            $listcm = get_coursemodules_in_course( VPL, $courseid );
-            foreach ($listcm as $aux) {
-                if ($aux->instance != $vplid) {
-                    $vpl = new mod_vpl( $aux->id );
-                    if ($vpl->is_use_as_base()){
-                        $basedonlist[$aux->instance] = $vpl->get_printable_name();
-                    }
-                }
+        $courseid = $this->vpl->get_course()->id;
+        $listcm = get_coursemodules_in_course( VPL, $courseid );
+        $instance = $this->vpl->get_instance();
+        $vplid = $instance->id;
+        foreach ($listcm as $aux) {
+            if ($aux->instance != $vplid) {
+                $vpl = new mod_vpl( $aux->id );
+                $basedonlist [$aux->instance] = $vpl->get_printable_name();
             }
         }
         asort( $basedonlist );
         $basedonlist [0] = get_string( 'select' );
         $mform->addElement( 'select', 'basedon', $strbasedon, $basedonlist );
         $mform->setDefault( 'basedon', $instance->basedon );
+
+        $strautodetect = get_string('autodetect', VPL);
+        $strrunscript = get_string('runscript', VPL);
+        $runlist = array_merge(array('' => $strautodetect), $this->get_runlist());
+        $mform->addElement( 'select', 'runscript', $strrunscript, $runlist );
+        $mform->setDefault( 'runscript', $instance->runscript );
+        $mform->addHelpButton('runscript', 'runscript', VPL);
+
+        $strdebugscript = get_string('debugscript', VPL);
+        $debuglist = array_merge(array('' => $strautodetect), $this->get_debuglist());
+        $mform->addElement( 'select', 'debugscript', $strdebugscript, $debuglist );
+        $mform->setDefault( 'debugscript', $instance->debugscript );
+        $mform->addHelpButton('debugscript', 'debugscript', VPL);
+
         $mform->addElement( 'selectyesno', 'run', get_string( 'run', VPL ) );
         $mform->setDefault( 'run', $instance->run );
         $mform->addElement( 'selectyesno', 'debug', get_string( 'debug', VPL ) );
@@ -76,13 +118,13 @@ class mod_vpl_executionoptions_form extends moodleform {
         $mform->addElement( 'selectyesno', 'automaticgrading', get_string( 'automaticgrading', VPL ) );
         $mform->setDefault( 'automaticgrading', $instance->automaticgrading );
         $mform->disabledIf( 'automaticgrading', 'evaluate', 'eq', 0 );
-         
+
         $mform->addElement( 'submit', 'saveoptions', get_string( 'saveoptions', VPL ) );
     }
 }
- 
+
 require_login();
- 
+
 $id = required_param( 'id', PARAM_INT );
 $vpl = new mod_vpl( $id );
 $vpl->prepare_page( 'forms/executionoptions.php', array ( 'id' => $id ) );
@@ -91,7 +133,7 @@ $vpl->require_capability( VPL_MANAGE_CAPABILITY );
 // Display page.
 $vpl->print_header( get_string( 'execution', VPL ) );
 $vpl->print_heading_with_help( 'executionoptions' );
- 
+
 $course = $vpl->get_course();
 $fgp = $vpl->get_execution_fgm();
 $mform = new mod_vpl_executionoptions_form( 'executionoptions.php', $vpl );
@@ -99,8 +141,9 @@ if ($fromform = $mform->get_data()) {
     if (isset( $fromform->saveoptions )) {
         $instance = $vpl->get_instance();
         \mod_vpl\event\vpl_execution_options_updated::log( $vpl );
-        $instance->usableasbase = $fromform->usableasbase;
         $instance->basedon = $fromform->basedon;
+        $instance->runscript = $fromform->runscript;
+        $instance->debugscript = $fromform->debugscript;
         $instance->run = $fromform->run;
         $instance->debug = $fromform->debug;
         $instance->evaluate = $fromform->evaluate;
@@ -116,6 +159,3 @@ if ($fromform = $mform->get_data()) {
 \mod_vpl\event\vpl_execution_options_viewed::log( $vpl );
 $mform->display();
 $vpl->print_footer();
- 
-        
-        

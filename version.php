@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with VPL for Moodle.  If not, see <http://www.gnu.org/licenses/>.
- 
+
 /**
  * Version config
  *
@@ -22,15 +22,14 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author Juan Carlos Rodríguez-del-Pino <jcrodriguez@dis.ulpgc.es>
  */
- 
- 
+
+
 defined('MOODLE_INTERNAL') || die();
- 
-$plugin->version = 2017121313;
+
+$plugin->version = 2018011313;
 $plugin->cron    = 300; // Cron check this plugin every 5 minutes.
 $plugin->requires = 2014051200; // Moodle 2.7!
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.3.1';
- 
+$plugin->release = '3.3.2';
+
 $plugin->component = 'mod_vpl';
- 

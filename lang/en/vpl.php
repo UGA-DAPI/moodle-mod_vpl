@@ -260,7 +260,6 @@ $string ['submittedonp'] = 'Submitted on {$a}';
 $string ['sureresetfiles'] = 'Do you want to lost all your work and reset the files to its original state?';
 $string ['test'] = 'Test activity';
 $string ['testcases'] = 'Test cases';
-$string ['usableasbase'] = 'Usable as base'; 
 $string ['timelimited'] = 'Time limited';
 $string ['timeleft'] = 'Time left';
 $string ['timeout'] = 'Timeout';
