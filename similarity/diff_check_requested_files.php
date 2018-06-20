@@ -20,7 +20,7 @@ $vpl = new mod_vpl( $id );
 
 $explode_code_in_editor = explode("\n", $_POST['val']);
 
-$fr = $vpl->get_required_fgm();
+$fr = $vpl->get_fgm('required');
 
         $filenames = $fr->getFileList();
         foreach ($filenames as $name) {
