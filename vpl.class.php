@@ -315,14 +315,19 @@ class mod_vpl {
      * @param $type string
      * @return object file group manager for  files
      */
-    public function get_fgm($type) {
-        if (! isset($this->fgm[$type])) {
-            $this->fgm[$type] = new file_group_process( $this->get_files_filename($type)
-                                                       , $this->get_files_directory($type)
-                                                       , $this->instance->maxfiles );
-        }
-        return $this->fgm[$type];
-    }
+    public function get_fgm($type) { 
+        if (! isset($this->fgm[$type])) { 
+            if ($type=='execution'){ 
+            $this->fgm[$type] = new file_group_execution( $this->get_files_filename($type) 
+                                                       , $this->get_files_directory($type) ); 
+            }else{ 
+            $this->fgm[$type] = new file_group_process( $this->get_files_filename($type) 
+                                                       , $this->get_files_directory($type) 
+                                                       , $this->instance->maxfiles ); 
+            } 
+        } 
+        return $this->fgm[$type]; 
+    } 
 
     // FIXME check and remove function.
     public function set_initial_file($name, $files) {
