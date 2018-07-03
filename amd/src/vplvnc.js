@@ -26,7 +26,13 @@
 /* globals Util */
 define([ 'jquery', 'jqueryui', 'mod_vpl/vplutil', 'mod_vpl/vplclipboard', 'core/log'],
         function($, jqui, VPLUtil, VPLClipboard, console) {
-    window.INCLUDE_URI="../editor/noVNC/include/";
+
+        if (typeof VPLUtil.get_absolute_path() === "undefined") {
+            window.INCLUDE_URI="../editor/noVNC/include/";
+        } else {
+            window.INCLUDE_URI=VPLUtil.get_absolute_path()+"/editor/noVNC/include/";
+        }
+
     Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
                        "keysymdef.js", "keyboard.js", "input.js", "display.js",
                        "jsunzip.js", "rfb.js", "keysym.js"]);

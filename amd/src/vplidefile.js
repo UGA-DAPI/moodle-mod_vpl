@@ -364,8 +364,16 @@ define(['jquery',
 
             this.open = function() {
                 if ( typeof ace === 'undefined' ) {
-                    VPLUtil.loadScript(['../editor/ace9/ace.js',
-                        '../editor/ace9/ext-language_tools.js'], function() {self.open();});
+                var URL, URL2;
+
+                if (typeof VPLUtil.get_absolute_path() !== "undefined") {
+                    URL = VPLUtil.get_absolute_path() + '/editor/ace9/ace.js';
+                    URL2 = VPLUtil.get_absolute_path() + '/editor/ace9/ext-language_tools.js';
+                } else {
+                    URL = '../editor/ace9/ace.js';
+                    URL2 = '../editor/ace9/ext-language_tools.js';
+                }
+                VPLUtil.loadScript([URL, URL2], function() {self.open();});
                     return;
                 }
                 if (opened) {

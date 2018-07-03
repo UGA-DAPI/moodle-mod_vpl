@@ -36,10 +36,13 @@ define(['jquery',
          'core/log',
          ],
          function($, jqui, log) {
+    var absolute_path;
+
     if (typeof VPLUtil != 'undefined') {
         return VPLUtil;
     }
     var VPLUtil = {};
+
     VPLUtil.doNothing = function() {
     };
     VPLUtil.returnFalse = function() {
@@ -705,6 +708,10 @@ define(['jquery',
     };
 
     VPLUtil.requestAction = function(action, title, data, URL) {
+        if (typeof VPLUtil.get_absolute_path() !== "undefined") {
+            URL = VPLUtil.get_absolute_path()+URL;
+        }
+
         var deferred = $.Deferred();
         var request = null;
         var xhr = false;
@@ -1196,7 +1203,15 @@ define(['jquery',
         SubmissionHighlighter.prototype.highlight = function(){
             var self = this;
             if ( typeof ace === 'undefined' ) {
-                VPLUtil.loadScript(['../editor/ace9/ace.js'], function() {self.highlight();});
+                    var URL;
+
+                    if (typeof VPLUtil.get_absolute_path() !== "undefined") {
+                        URL = VPLUtil.get_absolute_path() + '/editor/ace9/ace.js';
+                    } else {
+                        URL = '../editor/ace9/ace.js';
+                    }
+
+                VPLUtil.loadScript([URL], function() {self.highlight();});
                 return;
             }
             var files = this.files;
@@ -1273,7 +1288,15 @@ define(['jquery',
         VPLUtil.syntaxHighlight = function(){
             var self = this;
             if ( typeof ace === 'undefined' ) {
-                VPLUtil.loadScript(['../editor/ace9/ace.js'], function() {self.syntaxHighlight();});
+                    var URL;
+
+                    if (typeof VPLUtil.get_absolute_path() !== "undefined") {
+                        URL = VPLUtil.get_absolute_path() + '/editor/ace9/ace.js';
+                    } else {
+                        URL = '../editor/ace9/ace.js';
+                    }
+
+                VPLUtil.loadScript([URL], function() {self.syntaxHighlight();});
                 return;
             }
             new SubmissionHighlighter(files,results);
@@ -1326,6 +1349,15 @@ define(['jquery',
     VPLUtil.options = {
         scriptPath :''
     };
+
+    VPLUtil.get_absolute_path = function() {
+        return absolute_path;
+    };
+
+    VPLUtil.set_absolute_path = function(a_b) {
+         absolute_path = a_b;
+    };
+
     VPLUtil.init = function(options) {
         $.extend(VPLUtil.options, options);
     };
