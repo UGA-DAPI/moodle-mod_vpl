@@ -50,9 +50,17 @@ define(['jquery',
             VPLUtil.setStr(options.i18n);
             var str = VPLUtil.str;
             var rootObj = $('#' + root_id);
+            var URL_CSS;
+
+            if (typeof VPLUtil.get_absolute_path() === "undefined") {
+                URL_CSS = '../editor/VPLIDE.css';
+            } else {
+                URL_CSS = VPLUtil.get_absolute_path() + '/editor/VPLIDE.css';
+            }
+
             $("head").append('<meta name="viewport" content="initial-scale=1">')
                           .append('<meta name="viewport" width="device-width">')
-                          .append('<link rel="stylesheet" href="../editor/VPLIDE.css"/>');
+                          .append('<link rel="stylesheet" href="'+URL_CSS+'"/>');
             if (typeof rootObj != 'object') {
                 throw "VPL: constructor tag_id not found";
             }
