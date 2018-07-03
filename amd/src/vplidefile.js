@@ -33,13 +33,18 @@ define(['jquery',
     if ( typeof VPLFile != 'undefined') {
         return VPLFile;
     }
-    var VPLFile = function(id, name, value, fileManager, vplIdeInstance) {
+    var VPLFile = function(id, name, value, fileManager, vplIdeInstance, id_vpl) {
         var tid = "#vpl_file" + id;
         var tabnameid = "#vpl_tab_name" + id;
         var fileName = name;
         var modified = true;
         var opened = false;
         var self = this;
+        var current_id_vpl = id_vpl;
+
+        this.getCurrentIdVpl = function() {
+            return current_id_vpl;
+        };
         this.getId = function() {
             return id;
         };
@@ -343,10 +348,18 @@ define(['jquery',
             };
 
             this.check_difference = function() {
+             var URL;
+
+             if (typeof VPLUtil.get_absolute_path() !== "undefined") {
+                URL = VPLUtil.get_absolute_path() + "/similarity/diff_check_requested_files.php";
+             } else {
+                URL = "../similarity/diff_check_requested_files.php";
+             }
+
              $.ajax({
                         method: "POST",
-                        url: "../similarity/diff_check_requested_files.php",
-                        data: { id : this.$_GET('id'), name: fileName, val : editor.getValue() }
+                        url: URL,
+                        data: { id : current_id_vpl, name: fileName, val : editor.getValue() }
                       })
                         .done(function( data ) {
                             var modified = 'ace-changed'; // css class

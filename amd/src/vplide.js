@@ -357,7 +357,7 @@ define(['jquery',
                         return false;
                     }
                     var fid = VPLUtil.getUniqueId();
-                    var newfile = new VPLFile(fid, file.name, file.contents, this, vplIdeInstance);
+                    var newfile = new VPLFile(fid, file.name, file.contents, this, vplIdeInstance, options.id);
                     if (file.encoding == 1) {
                         newfile.extendToBinary();
                     } else {
