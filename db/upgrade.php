@@ -321,7 +321,7 @@ function xmldb_vpl_upgrade($oldversion = 0) {
         }
         $rs->close();
         // VPL savepoint reached.
-        upgrade_mod_savepoint( true, 2017042102, 'vpl' );
+        upgrade_mod_savepoint( true, 2018011314, 'vpl' );
     }
     return true;
 }
