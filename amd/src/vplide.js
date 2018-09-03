@@ -1441,10 +1441,6 @@ define(['jquery',
                  }).fail(showErrorMessage);
             }
 
-            VPLIDE.correctedFiles = function() {
-                correctedFiles();
-            };
-
             menuButtons.add({
                 name:'correctedfiles',
                 originalAction: function() {
