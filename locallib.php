@@ -653,7 +653,7 @@ function vpl_is_binary($filename, &$data = false) {
         return true;
     }
     $fileext = 'zip|jar|pdf|tar|bin|7z|arj|deb|gzip|';
-    $fileext .= 'rar|rpm|dat|db|rtf|doc|docx|odt';
+    $fileext .= 'rar|rpm|db|rtf|doc|docx|odt';
     if ( preg_match( '/^(' . $fileext . ')$/i', vpl_fileextension( $filename ) ) == 1 ) {
         return true;
     }
