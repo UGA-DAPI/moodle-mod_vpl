@@ -467,3 +467,4 @@ $string ['variations_help'] = '<p>A set of variations can be defined for an acti
 <p>Each variation has an identification code and a description. The identification code is used by the <b>vpl_enviroment.sh</b> file to pass
 the variation assigned to each student to the script files. The description, formatted in HTML, is shown to the students that have assigned
 the corresponding variation.</p>';
+$string ['requiredfiles'] = "Required Files";
