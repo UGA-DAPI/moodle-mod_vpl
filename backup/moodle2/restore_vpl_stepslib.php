@@ -65,6 +65,7 @@ class restore_vpl_activity_structure_step extends restore_activity_structure_ste
 
         $paths [] = new restore_path_element ( 'vpl', '/activity/vpl' );
         $paths [] = new restore_path_element ( 'required_file', '/activity/vpl/required_files/required_file' );
+        $paths [] = new restore_path_element ( 'corrected_file', '/activity/vpl/corrected_files/corrected_file' );
         $paths [] = new restore_path_element ( 'execution_file', '/activity/vpl/execution_files/execution_file' );
         $paths [] = new restore_path_element ( 'variation', '/activity/vpl/variations/variation' );
         if ($userinfo) {
@@ -134,6 +135,17 @@ class restore_vpl_activity_structure_step extends restore_activity_structure_ste
         $this->process_groupfile ( $data, $path );
     }
 
+    /**
+     * Restore a corrected file
+     * @param array $data of file [name, enconding, content]
+     */
+    protected function process_corrected_file($data) {
+        global $CFG;
+        $vplid = $this->get_new_parentid ( 'vpl' );
+        $path = $CFG->dataroot . '/vpl_data/' . $vplid . '/';
+        $this->process_groupfile ( $data, $path );
+    }
+    
     /**
      * Restore un execution file
      * @param array $data of file [name, encondinf, content]

@@ -116,6 +116,10 @@ class backup_nested_filegroup extends backup_nested_element {
                 $path = $CFG->dataroot . '/vpl_data/' . $vplid . '/usersdata/' . $userid . '/' . $subid . '/';
                 return $this->get_files( $path, 'submittedfiles' );
                 break;
+            case 'corrected_file' :
+                $vplid = $this->find_first_parent_by_name( 'id' )->get_value();
+                $path = $CFG->dataroot . '/vpl_data/' . $vplid . '/';
+                return $this->get_files( $path, 'corrected_files' );
             default :
                 throw new Exception( 'Type of element error for backup_nested_group' );
         }
@@ -229,6 +233,8 @@ class backup_vpl_activity_structure_step extends backup_activity_structure_step 
         $requiredfile = new backup_nested_filegroup( 'required_file', $idfield,  $filefields);
         $executionfiles = new backup_nested_element( 'execution_files' );
         $executionfile = new backup_nested_filegroup( 'execution_file', $idfield,  $filefields);
+        $corrected_files = new backup_nested_element( 'corrected_files' );
+        $corrected_file = new backup_nested_filegroup( 'corrected_file', $idfield,  $filefields);
         $variations = new backup_nested_element( 'variations' );
         $variation = new backup_nested_element( 'variation', $idfield, $this->variationfields );
         $asignedvariations = new backup_nested_element( 'asigned_variations' );
@@ -241,10 +247,12 @@ class backup_vpl_activity_structure_step extends backup_activity_structure_step 
         $submissionfile = new backup_nested_filegroup( 'submission_file', $idfield,  $filefields);
         // Build the tree.
         $vpl->add_child( $requiredfiles );
+        $vpl->add_child( $corrected_files );
         $vpl->add_child( $executionfiles );
         $vpl->add_child( $variations );
         $vpl->add_child( $submissions );
         $requiredfiles->add_child( $requiredfile );
+        $corrected_files->add_child( $corrected_file );
         $executionfiles->add_child( $executionfile );
         $variations->add_child( $variation );
         $variation->add_child( $asignedvariations );
