@@ -278,16 +278,17 @@ class mod_vpl_submission_CE extends mod_vpl_submission {
         // Info send with script.
         $info = "#!/bin/bash\n";
         $info .= vpl_bash_export( 'VPL_LANG', vpl_get_lang( true ) );
+        $subinstance = $this->get_instance();
+        if ($user = $DB->get_record( 'user', array ( 'id' => $subinstance->userid ) )) {
+            $info .= vpl_bash_export( 'MOODLE_USER_NAME', $vpl->fullname( $user, false ) );
+        }
         if ($type == 2) { // If evaluation add information.
-            $subinstance = $this->get_instance();
             $info .= vpl_bash_export( 'VPL_MAXTIME', $data->maxtime );
             $info .= vpl_bash_export( 'VPL_MAXMEMORY',  $data->maxmemory );
             $info .= vpl_bash_export( 'VPL_MAXFILESIZE',  $data->maxfilesize );
             $info .= vpl_bash_export( 'VPL_MAXPROCESSES',  $data->maxprocesses );
             $info .= vpl_bash_export( 'MOODLE_USER_ID',  $subinstance->userid );
-            if ($user = $DB->get_record( 'user', array ( 'id' => $subinstance->userid ) )) {
-                $info .= vpl_bash_export( 'MOODLE_USER_NAME', $vpl->fullname( $user, false ) );
-            }
+            
             $gradesetting = $vpl->get_grade_info();
             if ($gradesetting !== false) {
                 $info .= vpl_bash_export( 'VPL_GRADEMIN',  $gradesetting->grademin );
