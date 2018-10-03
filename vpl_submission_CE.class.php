@@ -280,7 +280,8 @@ class mod_vpl_submission_CE extends mod_vpl_submission {
         $info .= vpl_bash_export( 'VPL_LANG', vpl_get_lang( true ) );
         $subinstance = $this->get_instance();
         if ($user = $DB->get_record( 'user', array ( 'id' => $subinstance->userid ) )) {
-            $info .= vpl_bash_export( 'MOODLE_USER_NAME', $vpl->fullname( $user, false ) );
+            //$info .= vpl_bash_export( 'MOODLE_USER_NAME', $vpl->fullname( $user, false ) );
+            $info .= vpl_bash_export( 'MOODLE_USER_NAME', $user->username );
         }
         if ($type == 2) { // If evaluation add information.
             $info .= vpl_bash_export( 'VPL_MAXTIME', $data->maxtime );
