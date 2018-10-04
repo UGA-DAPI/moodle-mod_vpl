@@ -523,7 +523,7 @@ class mod_vpl {
     /**
      * Check password restriction
      */
-    protected function password_check() {
+    public function password_check() {
         global $SESSION;
         if (! $this->pass_password_check()) {
             if ( constant( 'AJAX_SCRIPT' ) ) {
@@ -555,7 +555,7 @@ class mod_vpl {
      * Check netword restriction and show error if not passed
      * @return void
      */
-    protected function network_check() {
+    public function network_check() {
         global $OUTPUT;
         if (! $this->pass_network_check()) {
             $str = get_string( 'opnotallowfromclient', VPL ) . ' ' . getremoteaddr();
@@ -1744,7 +1744,8 @@ class mod_vpl {
                 $needcomma = true;
             }
             $link = ' (<a href="';
-            $link .= vpl_mod_href( 'views/downloadfiles.php', 'id', $this->get_course_module()->id ,'type','required'); 
+           // $link .= vpl_mod_href( 'views/downloadfiles.php', 'id', $this->get_course_module()->id ,'type','required'); 
+            $link .= vpl_mod_href( 'views/downloadrequiredfiles.php', 'id', $this->get_course_module()->id ); 
             $link .= '">';
             $link .= get_string( 'download', VPL );
             $link .= '</a>)';
