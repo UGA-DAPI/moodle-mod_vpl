@@ -47,10 +47,20 @@ class restore_vpl_activity_structure_step extends restore_activity_structure_ste
         global $DB;
         if ( isset($this->basedonnames[$data->id]) ) {
             $basedonname = $this->basedonnames[$data->id];
+            
+            //solution 2
+            $sql = "SELECT * FROM {vpl} WHERE name='".$basedonname."'";
+            $basedon = $DB->get_records_sql( $sql );
+            $basedon_array = array_values($basedon);
+
+            if ( isset($basedon_array[0]->id)) {
+                return $basedon_array[0]->id;
+            }
+            /* //solution 1
             $basedon = $DB->get_record( 'vpl', array ( 'course' => $data->course, 'name' => $basedonname ));
             if ( $basedon != false ) {
                 return $basedon->id;
-            }
+            }*/
         }
         return false;
     }
